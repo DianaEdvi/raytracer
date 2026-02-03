@@ -43,10 +43,10 @@ bool parse_geometry(json& j){
             Eigen::Vector3f ac = parseVector(*itr, "ac");
             Eigen::Vector3f dc = parseVector(*itr, "dc");
             Eigen::Vector3f sc = parseVector(*itr, "sc");
-            float ka = (*itr)["ka"].get<float>();
-            float kd = (*itr)["kd"].get<float>();
-            float ks = (*itr)["ks"].get<float>();
-            float pc = (*itr)["pc"].get<float>();
+            float ka = parseFloat(*itr, "ka");
+            float kd = parseFloat(*itr, "kd");
+            float ks = parseFloat(*itr, "ks");
+            float pc = parseFloat(*itr, "pc");
 
             cout<<"ac: \n"<<ac<<endl;
             cout<<"dc: \n"<<dc<<endl;
@@ -91,6 +91,14 @@ Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName){
         }
     }
     return vec;
+}
+
+float parseFloat(const json& jsonObj, const string& propertyName){
+    if (!(jsonObj).contains(propertyName)){
+        cout << propertyName << " does not exist, but no matter! Setting it as 0" << endl;
+        return 0;
+    }
+    return (jsonObj)[propertyName].get<float>();
 }
 
 bool containsMandatoryProperty(const json& jsonObj, const string& property){
