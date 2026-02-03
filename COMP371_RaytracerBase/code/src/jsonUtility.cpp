@@ -24,22 +24,17 @@ bool parse_geometry(json& j){
         if(type=="sphere"){
             cout<<"Sphere: "<<endl;
 
-            // Check if centre property exists 
-            if (!(*itr).contains("centre")){
-                cerr<<"Warning: Centre is mandatory for circle type"<<endl;
+            // mandatory vars 
+
+            // Check if centre and radius properties exists 
+            if (!containsMandatoryProperty(*itr, "centre") ||
+                (!containsMandatoryProperty(*itr, "radius"))){
                 return false;
             }
 
             Eigen::Vector3f centre = parseVector(*itr, "centre");
-           
             cout<<"Centre: \n"<<centre<<endl;
-
-            // Check if radius property exists 
-            if (!(*itr).contains("radius")){
-                cerr<<"Warning: Radius is mandatory for circle type"<<endl;
-                return false;
-            }
-
+    
             float radius = (*itr)["radius"].get<float>();
             cout<<"Radius: "<<radius<<endl;
 
@@ -60,6 +55,14 @@ bool parse_geometry(json& j){
             cout<<"kd: "<<ka<<endl;
             cout<<"ks: "<<ks<<endl;
             cout<<"pc: "<<pc<<endl;
+        }
+        else if (type == "rectangle"){
+            if (!containsMandatoryProperty(*itr, "p1") ||
+                (!containsMandatoryProperty(*itr, "p2")) ||
+                (!containsMandatoryProperty(*itr, "p3")) ||
+                (!containsMandatoryProperty(*itr, "p4"))){
+                    return false;
+                }
         }
         ++gc;
     }
@@ -88,4 +91,13 @@ Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName){
         }
     }
     return vec;
+}
+
+bool containsMandatoryProperty(const json& jsonObj, const string& property){
+    string type = jsonObj["type"].get<string>();
+    if (!jsonObj.contains(property)){
+        cerr<<"Warning: "<< property << " is mandatory for " << type << " type"<<endl;
+        return false;
+    }   
+    return true;
 }
