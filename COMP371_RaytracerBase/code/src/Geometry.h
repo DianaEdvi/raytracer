@@ -1,0 +1,16 @@
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
+
+class Geometry {
+    public: 
+        virtual ~Geometry();
+};
+
+
+
+
+
+
+
+
+#endif

@@ -285,6 +285,33 @@ src/RayTracer.cpp.s:
 	$(MAKE) -f CMakeFiles/raytracer.dir/build.make CMakeFiles/raytracer.dir/src/RayTracer.cpp.s
 .PHONY : src/RayTracer.cpp.s
 
+src/jsonUtility.o: src/jsonUtility.cpp.o
+
+.PHONY : src/jsonUtility.o
+
+# target to build an object file
+src/jsonUtility.cpp.o:
+	$(MAKE) -f CMakeFiles/raytracer.dir/build.make CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o
+.PHONY : src/jsonUtility.cpp.o
+
+src/jsonUtility.i: src/jsonUtility.cpp.i
+
+.PHONY : src/jsonUtility.i
+
+# target to preprocess a source file
+src/jsonUtility.cpp.i:
+	$(MAKE) -f CMakeFiles/raytracer.dir/build.make CMakeFiles/raytracer.dir/src/jsonUtility.cpp.i
+.PHONY : src/jsonUtility.cpp.i
+
+src/jsonUtility.s: src/jsonUtility.cpp.s
+
+.PHONY : src/jsonUtility.s
+
+# target to generate assembly for a file
+src/jsonUtility.cpp.s:
+	$(MAKE) -f CMakeFiles/raytracer.dir/build.make CMakeFiles/raytracer.dir/src/jsonUtility.cpp.s
+.PHONY : src/jsonUtility.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -312,6 +339,9 @@ help:
 	@echo "... src/RayTracer.o"
 	@echo "... src/RayTracer.i"
 	@echo "... src/RayTracer.s"
+	@echo "... src/jsonUtility.o"
+	@echo "... src/jsonUtility.i"
+	@echo "... src/jsonUtility.s"
 .PHONY : help
 
 

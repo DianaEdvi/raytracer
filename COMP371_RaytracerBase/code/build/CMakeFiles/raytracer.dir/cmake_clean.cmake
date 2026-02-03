@@ -5,6 +5,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/raytracer.dir/external/test_ppm.cpp.o"
   "CMakeFiles/raytracer.dir/main.cpp.o"
   "CMakeFiles/raytracer.dir/src/RayTracer.cpp.o"
+  "CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
   "raytracer"
   "raytracer.pdb"
 )

@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/COMP371/external/test_ppm.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/external/test_ppm.cpp.o"
   "/COMP371/main.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/main.cpp.o"
   "/COMP371/src/RayTracer.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/src/RayTracer.cpp.o"
+  "/COMP371/src/jsonUtility.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
