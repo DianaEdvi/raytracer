@@ -9,8 +9,12 @@ using namespace std;
 using namespace nlohmann;
 
 bool parse_geometry(json& j);
-Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName);
+bool parse_lights(json& j);
+bool parse_output(json& j);
+
 bool containsMandatoryProperty(const json& jsonObj, const string& property);
+
+Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName);
 float parseFloat(const json& jsonObj, const string& propertyName);
 
 #endif
