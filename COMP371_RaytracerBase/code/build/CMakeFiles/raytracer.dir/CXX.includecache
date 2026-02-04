@@ -368,12 +368,24 @@ vector
 string_view
 -
 
-/COMP371/src/jsonUtility.cpp
+/COMP371/src/Geometry.cpp
+Geometry.h
+/COMP371/src/Geometry.h
 jsonUtility.h
 /COMP371/src/jsonUtility.h
+json.hpp
+/COMP371/src/json.hpp
 iostream
 -
+
+/COMP371/src/Geometry.h
 Eigen/Dense
+-
+json.hpp
+/COMP371/src/json.hpp
+iostream
+-
+memory
 -
 
 /COMP371/src/jsonUtility.h

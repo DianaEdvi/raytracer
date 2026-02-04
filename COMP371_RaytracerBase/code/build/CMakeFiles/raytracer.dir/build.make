@@ -122,9 +122,48 @@ CMakeFiles/raytracer.dir/external/test_ppm.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/raytracer.dir/external/test_ppm.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /COMP371/external/test_ppm.cpp -o CMakeFiles/raytracer.dir/external/test_ppm.cpp.s
 
+CMakeFiles/raytracer.dir/src/Camera.cpp.o: CMakeFiles/raytracer.dir/flags.make
+CMakeFiles/raytracer.dir/src/Camera.cpp.o: ../src/Camera.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/raytracer.dir/src/Camera.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytracer.dir/src/Camera.cpp.o -c /COMP371/src/Camera.cpp
+
+CMakeFiles/raytracer.dir/src/Camera.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/raytracer.dir/src/Camera.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /COMP371/src/Camera.cpp > CMakeFiles/raytracer.dir/src/Camera.cpp.i
+
+CMakeFiles/raytracer.dir/src/Camera.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/raytracer.dir/src/Camera.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /COMP371/src/Camera.cpp -o CMakeFiles/raytracer.dir/src/Camera.cpp.s
+
+CMakeFiles/raytracer.dir/src/Geometry.cpp.o: CMakeFiles/raytracer.dir/flags.make
+CMakeFiles/raytracer.dir/src/Geometry.cpp.o: ../src/Geometry.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/raytracer.dir/src/Geometry.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytracer.dir/src/Geometry.cpp.o -c /COMP371/src/Geometry.cpp
+
+CMakeFiles/raytracer.dir/src/Geometry.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/raytracer.dir/src/Geometry.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /COMP371/src/Geometry.cpp > CMakeFiles/raytracer.dir/src/Geometry.cpp.i
+
+CMakeFiles/raytracer.dir/src/Geometry.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/raytracer.dir/src/Geometry.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /COMP371/src/Geometry.cpp -o CMakeFiles/raytracer.dir/src/Geometry.cpp.s
+
+CMakeFiles/raytracer.dir/src/Light.cpp.o: CMakeFiles/raytracer.dir/flags.make
+CMakeFiles/raytracer.dir/src/Light.cpp.o: ../src/Light.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/raytracer.dir/src/Light.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytracer.dir/src/Light.cpp.o -c /COMP371/src/Light.cpp
+
+CMakeFiles/raytracer.dir/src/Light.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/raytracer.dir/src/Light.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /COMP371/src/Light.cpp > CMakeFiles/raytracer.dir/src/Light.cpp.i
+
+CMakeFiles/raytracer.dir/src/Light.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/raytracer.dir/src/Light.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /COMP371/src/Light.cpp -o CMakeFiles/raytracer.dir/src/Light.cpp.s
+
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: CMakeFiles/raytracer.dir/flags.make
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/RayTracer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/raytracer.dir/src/RayTracer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/raytracer.dir/src/RayTracer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytracer.dir/src/RayTracer.cpp.o -c /COMP371/src/RayTracer.cpp
 
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.i: cmake_force
@@ -137,7 +176,7 @@ CMakeFiles/raytracer.dir/src/RayTracer.cpp.s: cmake_force
 
 CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o: CMakeFiles/raytracer.dir/flags.make
 CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o: ../src/jsonUtility.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o -c /COMP371/src/jsonUtility.cpp
 
 CMakeFiles/raytracer.dir/src/jsonUtility.cpp.i: cmake_force
@@ -155,6 +194,9 @@ raytracer_OBJECTS = \
 "CMakeFiles/raytracer.dir/external/test_eigen.cpp.o" \
 "CMakeFiles/raytracer.dir/external/test_json.cpp.o" \
 "CMakeFiles/raytracer.dir/external/test_ppm.cpp.o" \
+"CMakeFiles/raytracer.dir/src/Camera.cpp.o" \
+"CMakeFiles/raytracer.dir/src/Geometry.cpp.o" \
+"CMakeFiles/raytracer.dir/src/Light.cpp.o" \
 "CMakeFiles/raytracer.dir/src/RayTracer.cpp.o" \
 "CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
 
@@ -166,11 +208,14 @@ raytracer: CMakeFiles/raytracer.dir/external/simpleppm.cpp.o
 raytracer: CMakeFiles/raytracer.dir/external/test_eigen.cpp.o
 raytracer: CMakeFiles/raytracer.dir/external/test_json.cpp.o
 raytracer: CMakeFiles/raytracer.dir/external/test_ppm.cpp.o
+raytracer: CMakeFiles/raytracer.dir/src/Camera.cpp.o
+raytracer: CMakeFiles/raytracer.dir/src/Geometry.cpp.o
+raytracer: CMakeFiles/raytracer.dir/src/Light.cpp.o
 raytracer: CMakeFiles/raytracer.dir/src/RayTracer.cpp.o
 raytracer: CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o
 raytracer: CMakeFiles/raytracer.dir/build.make
 raytracer: CMakeFiles/raytracer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable raytracer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable raytracer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/raytracer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -6,7 +6,6 @@
 using namespace std;
 
 bool parse_geometry(json& j){
-    cout<<"Geometry: "<<endl;
     int gc = 0;
 
     if (!containsMandatoryProperty(j, "geometry")){
@@ -32,41 +31,14 @@ bool parse_geometry(json& j){
             
             type = (*itr)["type"].get<std::string>();
 
-            Eigen::Vector3f ac = parseVector(*itr, "ac");
-            Eigen::Vector3f dc = parseVector(*itr, "dc");
-            Eigen::Vector3f sc = parseVector(*itr, "sc");
-            float ka = parseFloat(*itr, "ka");
-            float kd = parseFloat(*itr, "kd");
-            float ks = parseFloat(*itr, "ks");
-            float pc = parseFloat(*itr, "pc");
-
-            // optional vars
-            Eigen::Matrix4f transformMatrix = parseMatrix4f(*itr, "transform");
-            bool visible = parseBool(*itr, "visible");
-            // set default to true 
-            if (!visible){
-                visible = true;
-            }
-
-        
         if(type=="sphere"){
-            cout<<"Sphere: "<<endl;
-
             // mandatory vars 
             if (!containsMandatoryProperty(*itr, "centre") ||
                 (!containsMandatoryProperty(*itr, "radius"))){
                 return false;
             }
-
-            Eigen::Vector3f centre = parseVector(*itr, "centre");
-            float radius = parseFloat(*itr,"radius");
-            
-            cout<<"Centre: \n"<<centre<<endl;
-            cout<<"Radius: "<<radius<<endl;
         }
         else if (type == "rectangle"){
-            cout<<"Rectangle: "<<endl;
-
             // mandatory vars 
             if (!containsMandatoryProperty(*itr, "p1") ||
                 (!containsMandatoryProperty(*itr, "p2")) ||
@@ -74,35 +46,16 @@ bool parse_geometry(json& j){
                 (!containsMandatoryProperty(*itr, "p4"))){
                     return false;
             }
-
-            Eigen::Vector3f p1 = parseVector(*itr, "p1");
-            Eigen::Vector3f p2 = parseVector(*itr, "p2");
-            Eigen::Vector3f p3 = parseVector(*itr, "p3");
-            Eigen::Vector3f p4 = parseVector(*itr, "p4");
-
-            cout<<"p1: \n"<<p1<<endl;
-            cout<<"p2: \n"<<p2<<endl;
-            cout<<"p3: \n"<<p3<<endl;
-            cout<<"p4: \n"<<p4<<endl;      
+    
         }
-            cout<<"ac: \n"<<ac<<endl;
-            cout<<"dc: \n"<<dc<<endl;
-            cout<<"sc: \n"<<sc<<endl;
-            cout<<"ka: "<<ka<<endl;
-            cout<<"kd: "<<kd<<endl;
-            cout<<"ks: "<<ks<<endl;
-            cout<<"pc: "<<pc<<endl;
-            cout<<"transform: \n"<<transformMatrix<<endl;
-            cout<<"visible: "<<boolalpha<<visible<<endl;
         ++gc;
     }
     
-    cout<<"We have: "<<gc<<" objects!"<<endl;
+    cout<<"We have: "<<gc<<" Geometry objects, and all mandatory vars are there!"<<endl;
     return true;
 }
 
 bool parse_lights(json& j){
-    cout<<"Light: "<<endl;
     int lc = 0;
 
      if (!containsMandatoryProperty(j, "light")){
@@ -121,67 +74,23 @@ bool parse_lights(json& j){
         
         type = (*itr)["type"].get<std::string>();
 
-        Eigen::Vector3f id = parseVector(*itr, "id");
-        Eigen::Vector3f is = parseVector(*itr, "is");
-
-        // optional vars
-
-        Eigen::Matrix4f transformMatrix = parseMatrix4f(*itr, "transform");
-        unsigned int n = 0;
-
-        if (!(*itr).contains("n")){
-            cout << "n does not exist, but no matter! Setting it as 0" << endl;
-        }
-        else {
-            n = (*itr)["n"].get<unsigned int>();
-        }
-
-        bool usecenter = parseBool(*itr, "usecenter");
-        bool use = parseBool(*itr, "use");
-
-
         if(type=="point"){
-            cout<<"Point based light: "<<endl;
-
             if(!containsMandatoryProperty(*itr, "centre")){
                 return false;
             }
-
-            Eigen::Vector3f centre = parseVector(*itr, "centre");
-            cout<<"Centre: \n"<<centre<<endl;
         }
         else if(type == "area"){
-            cout<<"Area based light: "<<endl;
-
             if (!containsMandatoryProperty(*itr, "p1") ||
                 (!containsMandatoryProperty(*itr, "p2")) ||
                 (!containsMandatoryProperty(*itr, "p3")) ||
                 (!containsMandatoryProperty(*itr, "p4"))){
                     return false;
             }
-
-            Eigen::Vector3f p1 = parseVector(*itr, "p1");
-            Eigen::Vector3f p2 = parseVector(*itr, "p2");
-            Eigen::Vector3f p3 = parseVector(*itr, "p3");
-            Eigen::Vector3f p4 = parseVector(*itr, "p4");
-
-            cout<<"p1: \n"<<p1<<endl;
-            cout<<"p2: \n"<<p2<<endl;
-            cout<<"p3: \n"<<p3<<endl;
-            cout<<"p4: \n"<<p4<<endl;
         }
-        cout<<"id: \n"<<id<<endl;
-        cout<<"is: \n"<<is<<endl;
-        cout<<"transform: \n"<<transformMatrix<<endl;
-        cout<<"n: "<<n<<endl;
-        cout<<"usecenter: "<<boolalpha<<usecenter<<endl;
-        cout<<"use: "<<boolalpha<<use<<endl;
-
-
         ++lc;
     }
     
-    cout<<"We have: "<<lc<<" objects!"<<endl;
+    cout<<"We have: "<<lc<<" Light objects, and all mandatory vars are there!"<<endl;
     
     return true;
 }
@@ -283,7 +192,7 @@ Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName){
 // Parses a float from a json object
 float parseFloat(const json& jsonObj, const string& propertyName){
     if (!(jsonObj).contains(propertyName)){
-        cout << propertyName << " does not exist, but no matter! Setting it as 0" << endl;
+        // cout << propertyName << " does not exist, but no matter! Setting it as 0" << endl;
         return 0;
     }
     return (jsonObj)[propertyName].get<float>();
@@ -295,7 +204,7 @@ Eigen::Matrix4f parseMatrix4f(const json& jsonObj, const string& propertyName){
 
     // Check if the property actually exists
     if (!jsonObj.contains(propertyName)) {
-        cerr << "transform does not exist, but no matter! Setting it as identity" << endl;
+        // cerr << "transform does not exist, but no matter! Setting it as identity" << endl;
         return mat;
     }
 
@@ -322,7 +231,7 @@ Eigen::Matrix4f parseMatrix4f(const json& jsonObj, const string& propertyName){
 
 bool parseBool(const json& jsonObj, const string& propertyName){
     if (!(jsonObj).contains(propertyName)){
-            cout << propertyName << " does not exist, but no matter! Setting it as false" << endl;
+            // cout << propertyName << " does not exist, but no matter! Setting it as false" << endl;
             return false;
         }
         return true;
@@ -350,7 +259,7 @@ Eigen::Vector3i parseRaysPerPixel(const json& jsonObj, const string& propertyNam
             }
         }
     } else {
-        cout << "raysperpixel does not exist, but no matter! Setting its default to 1" << endl;
+        // cout << "raysperpixel does not exist, but no matter! Setting its default to 1" << endl;
         rpp[0] = 1;
     }
 

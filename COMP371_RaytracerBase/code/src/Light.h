@@ -1,5 +1,5 @@
-#ifndef GEOMETRY_H
-#define GEOMETRY_H
+#ifndef LIGHT_H
+#define LIGHT_H
 
 #include <Eigen/Dense>
 #include "json.hpp"
@@ -9,43 +9,47 @@
 using namespace nlohmann;
 using namespace std;
 
-class Geometry;
+class Light;
 
-class GeometryFactory {
+class LightFactory {
     public: 
-        unique_ptr<Geometry> create(json& j);
+        unique_ptr<Light> create(json& j);
 };
 
-class Geometry {
+
+class Light {
     public: 
-        virtual ~Geometry();
-        friend ostream &operator<<(ostream &out, const Geometry &geometry);
+        virtual ~Light();
+        friend ostream &operator<<(ostream &out, const Light &light);
         virtual void print(ostream& out) const;
     protected: 
-        float ka, kd, ks, pc;
-        Eigen::Vector3f ac, dc, sc;
-        bool visible;
+        Eigen::Vector3f id, is;
         Eigen::Matrix4f transformMatrix;
-        Geometry(json& j);
+        unsigned int n;
+        bool usecenter;
+        bool use;
+        Light(json& j);
 };
 
-class Sphere : public Geometry {
+class Point : public Light {
     public: 
-    Sphere(json& j);
+        Point(json& j);
     void print(ostream& out) const override;
     private: 
-        float radius;
         Eigen::Vector3f centre;
     
 };
 
-class Rectangle : public Geometry {
+class Area: public Light {
     public: 
-    Rectangle(json& j);
+        Area(json& j);
     void print(ostream& out) const override;
     private:
         Eigen::Vector3f p1, p2, p3, p4;
 };
+
+
+ 
 
 
 #endif
