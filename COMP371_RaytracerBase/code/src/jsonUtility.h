@@ -19,5 +19,5 @@ Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName);
 float parseFloat(const json& jsonObj, const string& propertyName);
 Eigen::Matrix4f parseMatrix4f(const json& jsonObj, const string& propertyName);
 bool parseBool(const json& jsonObj, const string& propertyName);
-
+Eigen::Vector3i parseRaysPerPixel(const json& jsonObj, const string& propertyName);
 #endif

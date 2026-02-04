@@ -42,6 +42,11 @@ bool parse_geometry(json& j){
 
             // optional vars
             Eigen::Matrix4f transformMatrix = parseMatrix4f(*itr, "transform");
+            bool visible = parseBool(*itr, "visible");
+            // set default to true 
+            if (!visible){
+                visible = true;
+            }
 
         
         if(type=="sphere"){
@@ -88,7 +93,7 @@ bool parse_geometry(json& j){
             cout<<"ks: "<<ks<<endl;
             cout<<"pc: "<<pc<<endl;
             cout<<"transform: \n"<<transformMatrix<<endl;
-            
+            cout<<"visible: "<<boolalpha<<visible<<endl;
         ++gc;
     }
     
@@ -132,6 +137,8 @@ bool parse_lights(json& j){
         }
 
         bool usecenter = parseBool(*itr, "usecenter");
+        bool use = parseBool(*itr, "use");
+
 
         if(type=="point"){
             cout<<"Point based light: "<<endl;
@@ -168,6 +175,8 @@ bool parse_lights(json& j){
         cout<<"transform: \n"<<transformMatrix<<endl;
         cout<<"n: "<<n<<endl;
         cout<<"usecenter: "<<boolalpha<<usecenter<<endl;
+        cout<<"use: "<<boolalpha<<use<<endl;
+
 
         ++lc;
     }
@@ -223,6 +232,7 @@ bool parse_output(json& j){
         Eigen::Vector3f bkc = parseVector(*itr, "bkc");
 
         // optional vals
+        Eigen::Vector3i raysperpixel = parseRaysPerPixel(*itr, "raysperpixel");
         bool antialiasing = parseBool(*itr, "antialiasing");
         bool twosiderender = parseBool(*itr, "twosiderender");
         bool globalillum = parseBool(*itr, "globalillum");
@@ -235,9 +245,11 @@ bool parse_output(json& j){
         cout << "Camera centre: \n" << centre << endl;
         cout << "ai: \n" << ai << endl;
         cout << "bkc: \n" << bkc << endl;
+        cout << "raysperpixel: \n" << raysperpixel << endl;
         cout << "antialiasing: " << antialiasing << endl;
         cout << "twosiderender: " << twosiderender << endl;
         cout << "globalillum: " << globalillum << endl;
+
 
        
         ++lc;
@@ -314,6 +326,35 @@ bool parseBool(const json& jsonObj, const string& propertyName){
             return false;
         }
         return true;
+}
+
+// parse rays per pixel depending on the amount of entries in vector
+Eigen::Vector3i parseRaysPerPixel(const json& jsonObj, const string& propertyName) {
+    Eigen::Vector3i rpp(0, 0, 0); // initialize all to 0
+
+    if (jsonObj.contains("raysperpixel")) {
+        const auto& arr = jsonObj["raysperpixel"];
+
+        if (!arr.is_array()) {
+            std::cerr << "Error: 'raysperpixel' must be an array!" << std::endl;
+            return rpp;
+        }
+
+        int i = 0;
+        for (const auto& val : arr) {
+            if (i < 3) {
+                rpp[i++] = val.get<unsigned int>();
+            } else {
+                cerr << "Warning: 'raysperpixel' has more than 3 values; extra ignored." << endl;
+                break;
+            }
+        }
+    } else {
+        cout << "raysperpixel does not exist, but no matter! Setting its default to 1" << endl;
+        rpp[0] = 1;
+    }
+
+    return rpp;
 }
 
 
