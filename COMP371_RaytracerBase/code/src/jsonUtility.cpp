@@ -8,6 +8,10 @@ using namespace std;
 bool parse_geometry(json& j){
     cout<<"Geometry: "<<endl;
     int gc = 0;
+
+    if (!containsMandatoryProperty(j, "geometry")){
+        return false;
+    }
     
     // use iterators to read-in array types
     for (auto itr = j["geometry"].begin(); itr!= j["geometry"].end(); itr++){
@@ -35,6 +39,10 @@ bool parse_geometry(json& j){
             float kd = parseFloat(*itr, "kd");
             float ks = parseFloat(*itr, "ks");
             float pc = parseFloat(*itr, "pc");
+
+            // optional vars
+            Eigen::Matrix4f transformMatrix = parseMatrix4f(*itr, "transform");
+
         
         if(type=="sphere"){
             cout<<"Sphere: "<<endl;
@@ -50,7 +58,6 @@ bool parse_geometry(json& j){
             
             cout<<"Centre: \n"<<centre<<endl;
             cout<<"Radius: "<<radius<<endl;
-
         }
         else if (type == "rectangle"){
             cout<<"Rectangle: "<<endl;
@@ -80,6 +87,8 @@ bool parse_geometry(json& j){
             cout<<"kd: "<<kd<<endl;
             cout<<"ks: "<<ks<<endl;
             cout<<"pc: "<<pc<<endl;
+            cout<<"transform: \n"<<transformMatrix<<endl;
+            
         ++gc;
     }
     
@@ -90,6 +99,10 @@ bool parse_geometry(json& j){
 bool parse_lights(json& j){
     cout<<"Light: "<<endl;
     int lc = 0;
+
+     if (!containsMandatoryProperty(j, "light")){
+        return false;
+    }
     
     // use iterators to read-in array types
     for (auto itr = j["light"].begin(); itr!= j["light"].end(); itr++){
@@ -105,6 +118,20 @@ bool parse_lights(json& j){
 
         Eigen::Vector3f id = parseVector(*itr, "id");
         Eigen::Vector3f is = parseVector(*itr, "is");
+
+        // optional vars
+
+        Eigen::Matrix4f transformMatrix = parseMatrix4f(*itr, "transform");
+        unsigned int n = 0;
+
+        if (!(*itr).contains("n")){
+            cout << "n does not exist, but no matter! Setting it as 0" << endl;
+        }
+        else {
+            n = (*itr)["n"].get<unsigned int>();
+        }
+
+        bool usecenter = parseBool(*itr, "usecenter");
 
         if(type=="point"){
             cout<<"Point based light: "<<endl;
@@ -138,6 +165,10 @@ bool parse_lights(json& j){
         }
         cout<<"id: \n"<<id<<endl;
         cout<<"is: \n"<<is<<endl;
+        cout<<"transform: \n"<<transformMatrix<<endl;
+        cout<<"n: "<<n<<endl;
+        cout<<"usecenter: "<<boolalpha<<usecenter<<endl;
+
         ++lc;
     }
     
@@ -149,6 +180,10 @@ bool parse_lights(json& j){
 bool parse_output(json& j){
     cout<<"Outputs: "<<endl;
     int lc = 0;
+
+     if (!containsMandatoryProperty(j, "output")){
+        return false;
+    }
     
     // use iterators to read-in array types
     for (auto itr = j["output"].begin(); itr!= j["output"].end(); itr++){
@@ -186,7 +221,12 @@ bool parse_output(json& j){
         float fov = parseFloat(*itr, "fov");
         Eigen::Vector3f ai = parseVector(*itr, "ai");
         Eigen::Vector3f bkc = parseVector(*itr, "bkc");
-        
+
+        // optional vals
+        bool antialiasing = parseBool(*itr, "antialiasing");
+        bool twosiderender = parseBool(*itr, "twosiderender");
+        bool globalillum = parseBool(*itr, "globalillum");
+
         cout<<"Filename: " << filename << endl;
         cout << "Size: " << size[0] << ", " << size[1] << endl;
         cout << "Lookat: \n" << lookat << endl;
@@ -195,6 +235,10 @@ bool parse_output(json& j){
         cout << "Camera centre: \n" << centre << endl;
         cout << "ai: \n" << ai << endl;
         cout << "bkc: \n" << bkc << endl;
+        cout << "antialiasing: " << antialiasing << endl;
+        cout << "twosiderender: " << twosiderender << endl;
+        cout << "globalillum: " << globalillum << endl;
+
        
         ++lc;
     }
@@ -232,6 +276,46 @@ float parseFloat(const json& jsonObj, const string& propertyName){
     }
     return (jsonObj)[propertyName].get<float>();
 }
+
+// Parses a4x4 matrix from a json object
+Eigen::Matrix4f parseMatrix4f(const json& jsonObj, const string& propertyName){
+    Eigen::Matrix4f mat = Eigen::Matrix4f::Identity();
+
+    // Check if the property actually exists
+    if (!jsonObj.contains(propertyName)) {
+        cerr << "transform does not exist, but no matter! Setting it as identity" << endl;
+        return mat;
+    }
+
+    int i = 0;
+    for (auto itr = jsonObj[propertyName].begin();
+         itr != jsonObj[propertyName].end();
+         ++itr)
+    {
+        if (i < 16) {
+            mat(i / 4, i % 4) = (*itr).get<float>();
+            ++i;
+        } else {
+            cout << "Warning: Too many entries in matrix" << endl;
+            break;
+        }
+    }
+
+    if (i < 16) {
+        cout << "Warning: Matrix has fewer than 16 values" << endl;
+    }
+
+    return mat;
+}
+
+bool parseBool(const json& jsonObj, const string& propertyName){
+    if (!(jsonObj).contains(propertyName)){
+            cout << propertyName << " does not exist, but no matter! Setting it as false" << endl;
+            return false;
+        }
+        return true;
+}
+
 
 // checks for mandatory property
 bool containsMandatoryProperty(const json& jsonObj, const string& property){

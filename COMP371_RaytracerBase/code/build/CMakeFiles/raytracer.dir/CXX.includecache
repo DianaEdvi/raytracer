@@ -368,6 +368,36 @@ vector
 string_view
 -
 
+../external/simpleppm.h
+fstream
+-
+cstdio
+-
+vector
+-
+string
+-
+
+/COMP371/src/RayTracer.cpp
+RayTracer.h
+/COMP371/src/RayTracer.h
+json.hpp
+/COMP371/src/json.hpp
+simpleppm.h
+/COMP371/src/simpleppm.h
+jsonUtility.h
+/COMP371/src/jsonUtility.h
+iostream
+-
+Eigen/Dense
+-
+sstream
+-
+
+/COMP371/src/RayTracer.h
+json.hpp
+/COMP371/src/json.hpp
+
 /COMP371/src/jsonUtility.cpp
 jsonUtility.h
 /COMP371/src/jsonUtility.h
@@ -380,6 +410,8 @@ Eigen/Dense
 json.hpp
 /COMP371/src/json.hpp
 Eigen/Dense
+-
+Eigen/Core
 -
 
 /usr/include/eigen3/Eigen/Cholesky

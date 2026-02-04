@@ -4,6 +4,7 @@
 #include "json.hpp"
 
 #include <Eigen/Dense>
+#include <Eigen/Core>
 
 using namespace std;
 using namespace nlohmann;
@@ -16,5 +17,7 @@ bool containsMandatoryProperty(const json& jsonObj, const string& property);
 
 Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName);
 float parseFloat(const json& jsonObj, const string& propertyName);
+Eigen::Matrix4f parseMatrix4f(const json& jsonObj, const string& propertyName);
+bool parseBool(const json& jsonObj, const string& propertyName);
 
 #endif
