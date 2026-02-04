@@ -13,33 +13,21 @@ bool parse_geometry(json& j){
     for (auto itr = j["geometry"].begin(); itr!= j["geometry"].end(); itr++){
         
         std::string type;
-        if(itr->contains("type")){
-           // type = static_cast<std::string>((*itr)["type"]);
-            type = (*itr)["type"].get<std::string>();
-        } else {
-            cout<<"Fatal error: geometry should always contain a type!!!"<<endl;
-            return false;
-        }
-        
-        if(type=="sphere"){
-            cout<<"Sphere: "<<endl;
 
-            // mandatory vars 
-
-            // Check if centre and radius properties exists 
-            if (!containsMandatoryProperty(*itr, "centre") ||
-                (!containsMandatoryProperty(*itr, "radius"))){
-                return false;
+        // check geometry mandatory vars
+        if (!containsMandatoryProperty(*itr, "type") ||
+                (!containsMandatoryProperty(*itr, "ac")) ||
+                (!containsMandatoryProperty(*itr, "dc")) ||
+                (!containsMandatoryProperty(*itr, "sc")) ||
+                (!containsMandatoryProperty(*itr, "ka")) ||
+                (!containsMandatoryProperty(*itr, "kd")) ||
+                (!containsMandatoryProperty(*itr, "ks")) ||
+                (!containsMandatoryProperty(*itr, "pc"))){
+                    return false;
             }
+            
+            type = (*itr)["type"].get<std::string>();
 
-            Eigen::Vector3f centre = parseVector(*itr, "centre");
-            cout<<"Centre: \n"<<centre<<endl;
-    
-            float radius = (*itr)["radius"].get<float>();
-            cout<<"Radius: "<<radius<<endl;
-
-
-            // Non mandatory vars
             Eigen::Vector3f ac = parseVector(*itr, "ac");
             Eigen::Vector3f dc = parseVector(*itr, "dc");
             Eigen::Vector3f sc = parseVector(*itr, "sc");
@@ -47,17 +35,27 @@ bool parse_geometry(json& j){
             float kd = parseFloat(*itr, "kd");
             float ks = parseFloat(*itr, "ks");
             float pc = parseFloat(*itr, "pc");
+        
+        if(type=="sphere"){
+            cout<<"Sphere: "<<endl;
 
-            cout<<"ac: \n"<<ac<<endl;
-            cout<<"dc: \n"<<dc<<endl;
-            cout<<"sc: \n"<<sc<<endl;
-            cout<<"ka: "<<ka<<endl;
-            cout<<"kd: "<<ka<<endl;
-            cout<<"ks: "<<ks<<endl;
-            cout<<"pc: "<<pc<<endl;
+            // mandatory vars 
+            if (!containsMandatoryProperty(*itr, "centre") ||
+                (!containsMandatoryProperty(*itr, "radius"))){
+                return false;
+            }
+
+            Eigen::Vector3f centre = parseVector(*itr, "centre");
+            float radius = parseFloat(*itr,"radius");
+            
+            cout<<"Centre: \n"<<centre<<endl;
+            cout<<"Radius: "<<radius<<endl;
+
         }
         else if (type == "rectangle"){
-            // check for four corners
+            cout<<"Rectangle: "<<endl;
+
+            // mandatory vars 
             if (!containsMandatoryProperty(*itr, "p1") ||
                 (!containsMandatoryProperty(*itr, "p2")) ||
                 (!containsMandatoryProperty(*itr, "p3")) ||
@@ -73,25 +71,15 @@ bool parse_geometry(json& j){
             cout<<"p1: \n"<<p1<<endl;
             cout<<"p2: \n"<<p2<<endl;
             cout<<"p3: \n"<<p3<<endl;
-            cout<<"p4: \n"<<p4<<endl;
-
-            // Non mandatory vars
-            Eigen::Vector3f ac = parseVector(*itr, "ac");
-            Eigen::Vector3f dc = parseVector(*itr, "dc");
-            Eigen::Vector3f sc = parseVector(*itr, "sc");
-            float ka = parseFloat(*itr, "ka");
-            float kd = parseFloat(*itr, "kd");
-            float ks = parseFloat(*itr, "ks");
-            float pc = parseFloat(*itr, "pc");
-
+            cout<<"p4: \n"<<p4<<endl;      
+        }
             cout<<"ac: \n"<<ac<<endl;
             cout<<"dc: \n"<<dc<<endl;
             cout<<"sc: \n"<<sc<<endl;
             cout<<"ka: "<<ka<<endl;
-            cout<<"kd: "<<ka<<endl;
+            cout<<"kd: "<<kd<<endl;
             cout<<"ks: "<<ks<<endl;
-            cout<<"pc: "<<pc<<endl;          
-        }
+            cout<<"pc: "<<pc<<endl;
         ++gc;
     }
     
@@ -107,14 +95,17 @@ bool parse_lights(json& j){
     for (auto itr = j["light"].begin(); itr!= j["light"].end(); itr++){
         
         std::string type;
-        if(itr->contains("type")){
-          //  type = static_cast<std::string>((*itr)["type"]);
-            type = (*itr)["type"].get<std::string>();
-        } else {
-            cout<<"Fatal error: light shoudl always contain a type!!!"<<endl;
-            return false;
-        }
+        if (!containsMandatoryProperty(*itr, "type") ||
+                (!containsMandatoryProperty(*itr, "id")) ||
+                (!containsMandatoryProperty(*itr, "is"))){
+                    return false;
+            }
         
+        type = (*itr)["type"].get<std::string>();
+
+        Eigen::Vector3f id = parseVector(*itr, "id");
+        Eigen::Vector3f is = parseVector(*itr, "is");
+
         if(type=="point"){
             cout<<"Point based light: "<<endl;
 
@@ -124,13 +115,6 @@ bool parse_lights(json& j){
 
             Eigen::Vector3f centre = parseVector(*itr, "centre");
             cout<<"Centre: \n"<<centre<<endl;
-
-            // Non mandatory vars
-            Eigen::Vector3f id = parseVector(*itr, "id");
-            Eigen::Vector3f is = parseVector(*itr, "is");
-
-            cout<<"id: \n"<<id<<endl;
-            cout<<"is: \n"<<is<<endl;
         }
         else if(type == "area"){
             cout<<"Area based light: "<<endl;
@@ -151,14 +135,9 @@ bool parse_lights(json& j){
             cout<<"p2: \n"<<p2<<endl;
             cout<<"p3: \n"<<p3<<endl;
             cout<<"p4: \n"<<p4<<endl;
-
-            // Non mandatory vars
-            Eigen::Vector3f id = parseVector(*itr, "id");
-            Eigen::Vector3f is = parseVector(*itr, "is");
-
-            cout<<"id: \n"<<id<<endl;
-            cout<<"is: \n"<<is<<endl;
         }
+        cout<<"id: \n"<<id<<endl;
+        cout<<"is: \n"<<is<<endl;
         ++lc;
     }
     
@@ -175,15 +154,20 @@ bool parse_output(json& j){
     for (auto itr = j["output"].begin(); itr!= j["output"].end(); itr++){
         
         std::string filename;
-        if(itr->contains("filename")){
-          //  filename = static_cast<std::string>((*itr)["filename"]);
-            filename = (*itr)["filename"].get<std::string>();
-        } else {
-            cout<<"Fatal error: output shoudl always contain a filename!!!"<<endl;
-            return false;
-        }
+    
+        if (!containsMandatoryProperty(*itr, "filename") ||
+                (!containsMandatoryProperty(*itr, "size")) ||
+                (!containsMandatoryProperty(*itr, "fov")) ||
+                (!containsMandatoryProperty(*itr, "centre")) ||
+                (!containsMandatoryProperty(*itr, "up")) ||
+                (!containsMandatoryProperty(*itr, "lookat")) ||
+                (!containsMandatoryProperty(*itr, "ai")) ||
+                (!containsMandatoryProperty(*itr, "bkc"))){
+                    return false;
+            }
 
-        cout<<"Filename: " << filename << endl;
+        filename = (*itr)["filename"].get<std::string>();
+
         
         int size[2];
         int i = 0;
@@ -192,13 +176,8 @@ bool parse_output(json& j){
                 size[i++] = (*itr2).get<float>();
             } else {
                 cout<<"Warning: Too many entries in size"<<endl;
+                return false;
             }
-        }
-        cout << "Size: " << size[0] << ", " << size[1] << endl;
-
-        // mandatory properties
-        if(!containsMandatoryProperty(*itr, "fov")){
-            return false;
         }
         
         Eigen::Vector3f lookat = parseVector(*itr, "lookat");
@@ -207,7 +186,9 @@ bool parse_output(json& j){
         float fov = parseFloat(*itr, "fov");
         Eigen::Vector3f ai = parseVector(*itr, "ai");
         Eigen::Vector3f bkc = parseVector(*itr, "bkc");
-
+        
+        cout<<"Filename: " << filename << endl;
+        cout << "Size: " << size[0] << ", " << size[1] << endl;
         cout << "Lookat: \n" << lookat << endl;
         cout << "up: \n" << up << endl;
         cout<<"FOV: "<<fov<<endl;
@@ -224,7 +205,6 @@ bool parse_output(json& j){
 
 // Parses a vector from a json object
 Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName){
-    cout << "parsing " << propertyName << endl; 
     Eigen::Vector3f vec(0,0,0);
 
     // Check if the property actually exists
