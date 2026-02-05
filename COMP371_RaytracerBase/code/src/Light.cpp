@@ -39,12 +39,12 @@ Light::Light(json& j){
 }
 
 void Light::print(ostream& out) const {
-	   out << "id: \n" << id << "\n"
-            << "is: \n" << is << "\n"
-            << "transformMatrix: \n" << transformMatrix << "\n"
-            << "n: " << n << "\n"
-            << "usecenter: " << boolalpha << usecenter << "\n"
-            << "use: " << boolalpha << use << "\n";
+    out << "id: " << id.transpose() << endl
+        << "is: " << is.transpose() << endl
+        << "transformMatrix: \n" << transformMatrix << endl
+        << "n: " << n << endl
+        << "usecenter: " << (usecenter ? "true" : "false") << endl
+        << "use: " << (use ? "true" : "false") << endl;
 }
 
 ostream &operator<<(ostream &out, const Light &light)
@@ -60,7 +60,8 @@ Point::Point(json& j) : Light(j) {
 }
 
 void Point::print(ostream& out) const{
-    out << "centre: \n" << centre << "\n";
+    out << "Point: " << endl
+        << "centre: " << centre.transpose() << endl;
     Light::print(out);
 }
 
@@ -72,9 +73,10 @@ Area::Area(json& j) : Light(j){
 }
 
 void Area::print(ostream& out) const {
-    out << "p1: \n" << p1 << "\n"
-    << "p2: \n" << p2 << "\n"
-    << "p3: \n" << p3 << "\n"
-    << "p4: \n" << p4 << "\n";
+    out << "Area: " << endl
+        << "p1: " << p1.transpose() << endl
+        << "p2: " << p2.transpose() << endl
+        << "p3: " << p3.transpose() << endl
+        << "p4: " << p4.transpose() << endl;
     Light::print(out);
 }

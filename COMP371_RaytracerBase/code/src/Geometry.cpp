@@ -34,13 +34,13 @@ Geometry::Geometry(json& j){
 }
 
 void Geometry::print(ostream& out) const {
-	   out << "ac: \n" << ac << "\n"
-            << "dc: \n" << dc << "\n"
-            << "sc: \n" << sc << "\n"
-            << "ka: " << ka << "\n"
-            << "kd: " << kd << "\n"
-            << "ks: " << ks << "\n"
-            << "pc: " << pc << "\n";
+    out << "ac: " << ac.transpose() << endl
+        << "dc: " << dc.transpose() << endl
+        << "sc: " << sc.transpose() << endl
+        << "ka: " << ka << endl
+        << "kd: " << kd << endl
+        << "ks: " << ks << endl
+        << "pc: " << pc << endl;
 }
 
 ostream &operator<<(ostream &out, const Geometry &geometry)
@@ -59,9 +59,9 @@ Sphere::Sphere(json& j) : Geometry(j) {
 }
 
 void Sphere::print(ostream& out) const{
-    out << "Sphere: \n"  
-    << "radius: " << radius << "\n"
-    << "centre: \n" << centre << "\n";
+    out << "Sphere: " << endl
+        << "radius: " << radius << endl
+        << "centre: " << centre.transpose() << endl;
     Geometry::print(out);
 }
 
@@ -73,10 +73,10 @@ Rectangle::Rectangle(json& j) : Geometry(j){
 }
 
 void Rectangle::print(ostream& out) const {
-    out << "Rectangle: \n" 
-    << "p1: \n" << p1 << "\n"
-    << "p2: \n" << p2 << "\n"
-    << "p3: \n" << p3 << "\n"
-    << "p4: \n" << p4 << "\n";
+    out << "Rectangle: " << endl
+        << "p1: " << p1.transpose() << endl
+        << "p2: " << p2.transpose() << endl
+        << "p3: " << p3.transpose() << endl
+        << "p4: " << p4.transpose() << endl;
     Geometry::print(out);
 }
