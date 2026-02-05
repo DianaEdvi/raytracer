@@ -9,11 +9,14 @@
 
 #include "Geometry.h"
 #include "Light.h"
+#include "Output.h"
 
 using namespace std;
 
 class Geometry;
 class Light;
+class Output;
+
 class RayTracer {
     public: 
         RayTracer(nlohmann::json j);
@@ -21,7 +24,7 @@ class RayTracer {
     private:
         vector<unique_ptr<Geometry>> geometryObjs; 
         vector<unique_ptr<Light>> lightObjs; 
-        // unique_ptr<Output> output; 
+        vector<unique_ptr<Output>> outputObjs; 
 };
 
 #endif

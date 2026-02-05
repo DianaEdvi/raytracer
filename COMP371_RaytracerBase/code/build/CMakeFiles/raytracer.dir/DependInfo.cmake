@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/COMP371/src/Camera.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/src/Camera.cpp.o"
   "/COMP371/src/Geometry.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/src/Geometry.cpp.o"
   "/COMP371/src/Light.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/src/Light.cpp.o"
+  "/COMP371/src/Output.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/src/Output.cpp.o"
   "/COMP371/src/RayTracer.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/src/RayTracer.cpp.o"
   "/COMP371/src/jsonUtility.cpp" "/COMP371/build/CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
   )

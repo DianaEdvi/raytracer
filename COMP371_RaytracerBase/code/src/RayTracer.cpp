@@ -5,11 +5,14 @@
 
 #include "Geometry.h"
 #include "Light.h"
+#include "Output.h"
 
 
 #include <iostream>
 #include <Eigen/Dense>
 #include <sstream>
+
+#include <memory>
 
 using namespace std;
 using namespace nlohmann;
@@ -32,6 +35,10 @@ RayTracer::RayTracer(nlohmann::json j){
         lightObjs.push_back(lf.create(*itr));
     }
 
+    for (auto itr = j["output"].begin(); itr!= j["output"].end(); itr++){
+        outputObjs.push_back(make_unique<Output>(*itr));
+    }
+
 
     for(const auto& g : geometryObjs){
         cout << *g << endl;
@@ -39,6 +46,10 @@ RayTracer::RayTracer(nlohmann::json j){
 
     for(const auto& l : lightObjs){
         cout << *l << endl;
+    }
+
+    for(const auto& o : outputObjs){
+        cout << *o << endl;
     }
 
 

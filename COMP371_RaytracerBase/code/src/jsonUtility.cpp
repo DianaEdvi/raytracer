@@ -96,7 +96,6 @@ bool parse_lights(json& j){
 }
 
 bool parse_output(json& j){
-    cout<<"Outputs: "<<endl;
     int lc = 0;
 
      if (!containsMandatoryProperty(j, "output")){
@@ -104,10 +103,7 @@ bool parse_output(json& j){
     }
     
     // use iterators to read-in array types
-    for (auto itr = j["output"].begin(); itr!= j["output"].end(); itr++){
-        
-        std::string filename;
-    
+    for (auto itr = j["output"].begin(); itr!= j["output"].end(); itr++){    
         if (!containsMandatoryProperty(*itr, "filename") ||
                 (!containsMandatoryProperty(*itr, "size")) ||
                 (!containsMandatoryProperty(*itr, "fov")) ||
@@ -118,9 +114,6 @@ bool parse_output(json& j){
                 (!containsMandatoryProperty(*itr, "bkc"))){
                     return false;
             }
-
-        filename = (*itr)["filename"].get<std::string>();
-
         
         int size[2];
         int i = 0;
@@ -131,40 +124,11 @@ bool parse_output(json& j){
                 cout<<"Warning: Too many entries in size"<<endl;
                 return false;
             }
-        }
-        
-        Eigen::Vector3f lookat = parseVector(*itr, "lookat");
-        Eigen::Vector3f up = parseVector(*itr, "up");
-        Eigen::Vector3f centre = parseVector(*itr, "centre");
-        float fov = parseFloat(*itr, "fov");
-        Eigen::Vector3f ai = parseVector(*itr, "ai");
-        Eigen::Vector3f bkc = parseVector(*itr, "bkc");
-
-        // optional vals
-        Eigen::Vector3i raysperpixel = parseRaysPerPixel(*itr, "raysperpixel");
-        bool antialiasing = parseBool(*itr, "antialiasing");
-        bool twosiderender = parseBool(*itr, "twosiderender");
-        bool globalillum = parseBool(*itr, "globalillum");
-
-        cout<<"Filename: " << filename << endl;
-        cout << "Size: " << size[0] << ", " << size[1] << endl;
-        cout << "Lookat: \n" << lookat << endl;
-        cout << "up: \n" << up << endl;
-        cout<<"FOV: "<<fov<<endl;
-        cout << "Camera centre: \n" << centre << endl;
-        cout << "ai: \n" << ai << endl;
-        cout << "bkc: \n" << bkc << endl;
-        cout << "raysperpixel: \n" << raysperpixel << endl;
-        cout << "antialiasing: " << antialiasing << endl;
-        cout << "twosiderender: " << twosiderender << endl;
-        cout << "globalillum: " << globalillum << endl;
-
-
-       
+        }       
         ++lc;
     }
     
-    cout<<"We have: "<<lc<<" objects!"<<endl;
+    cout<<"We have: "<<lc<<" Output objects, and all mandatory vars are there!"<<endl;
     return true;
 }
 

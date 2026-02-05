@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/raytracer.dir/src/Camera.cpp.o"
   "CMakeFiles/raytracer.dir/src/Geometry.cpp.o"
   "CMakeFiles/raytracer.dir/src/Light.cpp.o"
+  "CMakeFiles/raytracer.dir/src/Output.cpp.o"
   "CMakeFiles/raytracer.dir/src/RayTracer.cpp.o"
   "CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
   "raytracer"
