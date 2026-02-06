@@ -6,6 +6,7 @@
 #include "Geometry.h"
 #include "Light.h"
 #include "Output.h"
+#include "Camera.h"
 
 
 #include <iostream>
@@ -40,18 +41,26 @@ RayTracer::RayTracer(nlohmann::json j){
     }
 
 
-    for(const auto& g : geometryObjs){
-        cout << *g << endl;
-    }
+    // for(const auto& g : geometryObjs){
+    //     cout << *g << endl;
+    // }
 
-    for(const auto& l : lightObjs){
-        cout << *l << endl;
-    }
+    // for(const auto& l : lightObjs){
+    //     cout << *l << endl;
+    // }
 
-    for(const auto& o : outputObjs){
-        cout << *o << endl;
-    }
+    // for(const auto& o : outputObjs){
+    //     cout << *o << endl;
+    // }
 
+    Camera camera(outputObjs[0]->getLookat(),
+        outputObjs[0]->getUp(),
+        outputObjs[0]->getCentre(),
+        outputObjs[0]->getFov(), 
+        outputObjs[0]->getWidth(),
+        outputObjs[0]->getHeight());
+
+        cout << camera << endl;
 
 
 }

@@ -366,6 +366,33 @@ src/Output.cpp.s:
 	$(MAKE) -f CMakeFiles/raytracer.dir/build.make CMakeFiles/raytracer.dir/src/Output.cpp.s
 .PHONY : src/Output.cpp.s
 
+src/Ray.o: src/Ray.cpp.o
+
+.PHONY : src/Ray.o
+
+# target to build an object file
+src/Ray.cpp.o:
+	$(MAKE) -f CMakeFiles/raytracer.dir/build.make CMakeFiles/raytracer.dir/src/Ray.cpp.o
+.PHONY : src/Ray.cpp.o
+
+src/Ray.i: src/Ray.cpp.i
+
+.PHONY : src/Ray.i
+
+# target to preprocess a source file
+src/Ray.cpp.i:
+	$(MAKE) -f CMakeFiles/raytracer.dir/build.make CMakeFiles/raytracer.dir/src/Ray.cpp.i
+.PHONY : src/Ray.cpp.i
+
+src/Ray.s: src/Ray.cpp.s
+
+.PHONY : src/Ray.s
+
+# target to generate assembly for a file
+src/Ray.cpp.s:
+	$(MAKE) -f CMakeFiles/raytracer.dir/build.make CMakeFiles/raytracer.dir/src/Ray.cpp.s
+.PHONY : src/Ray.cpp.s
+
 src/RayTracer.o: src/RayTracer.cpp.o
 
 .PHONY : src/RayTracer.o
@@ -456,6 +483,9 @@ help:
 	@echo "... src/Output.o"
 	@echo "... src/Output.i"
 	@echo "... src/Output.s"
+	@echo "... src/Ray.o"
+	@echo "... src/Ray.i"
+	@echo "... src/Ray.s"
 	@echo "... src/RayTracer.o"
 	@echo "... src/RayTracer.i"
 	@echo "... src/RayTracer.s"
