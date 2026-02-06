@@ -11,6 +11,12 @@
 #include "Light.h"
 #include "Output.h"
 
+
+#include <fstream>
+#include <cstdio>
+#include <vector>
+#include <string>
+
 using namespace std;
 
 class Geometry;
@@ -27,4 +33,9 @@ class RayTracer {
         vector<unique_ptr<Output>> outputObjs; 
 };
 
+
+
+int save_ppm(std::string file_name, const std::vector<double>& buffer, int dimx, int dimy);
+
+int test_save_ppm();
 #endif

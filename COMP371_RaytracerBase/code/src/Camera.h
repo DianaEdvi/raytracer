@@ -13,6 +13,10 @@ class Camera {
         float fov;
         unsigned int width;
         unsigned int height;
+        // basis  vectors
+        Eigen::Vector3f w;
+        Eigen::Vector3f u;
+        Eigen::Vector3f v;
     public: 
         Camera(Eigen::Vector3f lookat, 
             Eigen::Vector3f up, 

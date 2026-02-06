@@ -1,6 +1,5 @@
 #include "RayTracer.h"
 #include "json.hpp"
-#include "simpleppm.h"
 #include "jsonUtility.h"
 
 #include "Geometry.h"
@@ -12,6 +11,7 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <sstream>
+#include <fstream>
 
 #include <memory>
 
@@ -62,6 +62,8 @@ RayTracer::RayTracer(nlohmann::json j){
 
         cout << camera << endl;
 
+        
+    test_save_ppm();
 
 }
 
@@ -69,4 +71,46 @@ void RayTracer::run(){
     std::cout << "RUNRUNRUN" << std::endl;
 }
 
+
+int test_save_ppm(){
+    int dimx = 800;
+    int dimy = 600;
+    
+    int w = 100;
+    
+    std::vector<double> buffer(3*dimx*dimy);
+    for(int j=0;j<dimy;++j){
+        for(int i=0;i<dimx;++i){
+            if(((i+j)/w)%2==0){
+                buffer[3*j*dimx+3*i+0]=1;
+                buffer[3*j*dimx+3*i+1]=1;
+                buffer[3*j*dimx+3*i+2]=0;
+            } else {
+                buffer[3*j*dimx+3*i+0]=0;
+                buffer[3*j*dimx+3*i+1]=1;
+                buffer[3*j*dimx+3*i+2]=1;
+            }
+        }
+    }
+               
+             
+    save_ppm("test.ppm", buffer, dimx, dimy);
+    
+    return 0;
+}
+
+
+int save_ppm(std::string file_name, const std::vector<double>& buffer, int dimx, int dimy) {
+   
+    ofstream ofs(file_name, ios_base::out | ios_base::binary);
+    ofs << "P6" << endl << dimx << ' ' << dimy << endl << "255" << endl;
+ 
+    for (unsigned int j = 0; j < dimy; ++j)
+        for (unsigned int i = 0; i < dimx; ++i)
+            ofs << (char) (255.0 * buffer[3*j*dimx+3*i+0]) <<  (char) (255.0 * buffer[3*j*dimx+3*i+1]) << (char) (255.0 * buffer[3*j*dimx+3*i+2]);
+ 
+    ofs.close();
+ 
+    return 0;
+}
 

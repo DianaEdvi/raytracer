@@ -16,6 +16,9 @@ Camera::Camera(Eigen::Vector3f lookat,
       width(width),
       height(height)
 {
+    w = (lookat - centre).normalized();
+    u = up.cross(w).normalized();
+    v = w.cross(u);
 }
 
 
@@ -26,6 +29,10 @@ ostream &operator<<(ostream &out, const Camera &camera){
     out << "Camera centre: " << camera.centre.transpose() << endl;
     out << "width: " << camera.width << endl;
     out << "height: " << camera.height << endl;
+    out << "w: " << camera.w.transpose() << endl;
+    out << "u: " << camera.u.transpose() << endl;
+    out << "v: " << camera.v.transpose() << endl;
+
     return out;
 }
  
