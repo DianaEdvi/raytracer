@@ -113,6 +113,28 @@ void Rectangle::print(ostream& out) const {
 
 bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, float& t) const {
 
+    // R(t) = origin + t * direction
+    // Plane: normal⋅(X - p1) = 0 => point is on a plane
+    // normal⋅(R(t) - p1) = 0
+    // t = normal⋅(p1 -  origin)/normal⋅direction
+    
+    const float EPS = 1e-6f;
+
+    Eigen::Vector3f u = p2 - p1; // horizontal vector 
+    Eigen::Vector3f v = p4 - p1; // vertical vector 
+    Eigen::Vector3f n = u.cross(v).normalized();
+
+    float denom = n.dot(direction);
+    if (abs(denom) < EPS) return false; // denominator is 0/close to 0 = parallel to plane 
+
+    float tHit = normal.dot(p1 - origin) / denom; // the distance to intersection
+
+    if (tHit <= 0) return false; // intersection is behind the camera
+
+    // otherwise, it hits the plane, we just need to check if it is inside/outside 
+
+    Eigen::Vector3f P = origin + tHit * direction; // hit point 
+
     return false;
 }
 
