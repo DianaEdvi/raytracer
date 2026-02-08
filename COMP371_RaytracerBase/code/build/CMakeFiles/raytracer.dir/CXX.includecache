@@ -368,11 +368,11 @@ vector
 string_view
 -
 
-/COMP371/external/simpleppm.cpp
-
 /COMP371/src/Camera.h
 Eigen/Dense
 -
+Ray.h
+/COMP371/src/Ray.h
 iostream
 -
 
@@ -401,6 +401,10 @@ iostream
 -
 json.hpp
 /COMP371/src/json.hpp
+Eigen/Dense
+-
+
+/COMP371/src/Ray.h
 Eigen/Dense
 -
 
@@ -419,6 +423,8 @@ Output.h
 /COMP371/src/Output.h
 Camera.h
 /COMP371/src/Camera.h
+Ray.h
+/COMP371/src/Ray.h
 iostream
 -
 Eigen/Dense

@@ -643,6 +643,7 @@ CMakeFiles/raytracer.dir/main.cpp.o: /usr/include/eigen3/Eigen/src/plugins/Matri
 
 CMakeFiles/raytracer.dir/src/Camera.cpp.o: ../src/Camera.cpp
 CMakeFiles/raytracer.dir/src/Camera.cpp.o: ../src/Camera.h
+CMakeFiles/raytracer.dir/src/Camera.cpp.o: ../src/Ray.h
 CMakeFiles/raytracer.dir/src/Camera.cpp.o: /usr/include/eigen3/Eigen/Cholesky
 CMakeFiles/raytracer.dir/src/Camera.cpp.o: /usr/include/eigen3/Eigen/Core
 CMakeFiles/raytracer.dir/src/Camera.cpp.o: /usr/include/eigen3/Eigen/Dense
@@ -1702,6 +1703,7 @@ CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/Camera.h
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/Geometry.h
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/Light.h
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/Output.h
+CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/Ray.h
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/RayTracer.cpp
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/RayTracer.h
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o: ../src/jsonUtility.h

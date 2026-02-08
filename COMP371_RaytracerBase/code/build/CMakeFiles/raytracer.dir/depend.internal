@@ -644,6 +644,7 @@ CMakeFiles/raytracer.dir/main.cpp.o
 CMakeFiles/raytracer.dir/src/Camera.cpp.o
  /COMP371/src/Camera.cpp
  /COMP371/src/Camera.h
+ /COMP371/src/Ray.h
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Dense
@@ -1703,6 +1704,7 @@ CMakeFiles/raytracer.dir/src/RayTracer.cpp.o
  /COMP371/src/Geometry.h
  /COMP371/src/Light.h
  /COMP371/src/Output.h
+ /COMP371/src/Ray.h
  /COMP371/src/RayTracer.cpp
  /COMP371/src/RayTracer.h
  /COMP371/src/jsonUtility.h

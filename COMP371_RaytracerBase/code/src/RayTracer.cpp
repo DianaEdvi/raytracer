@@ -6,6 +6,7 @@
 #include "Light.h"
 #include "Output.h"
 #include "Camera.h"
+#include "Ray.h"
 
 
 #include <iostream>
@@ -63,7 +64,25 @@ RayTracer::RayTracer(nlohmann::json j){
         cout << camera << endl;
 
         
-    test_save_ppm();
+    // test_save_ppm();
+
+    int dimx = camera.getWidth();
+    int dimy = camera.getHeight();
+    
+    std::vector<double> buffer(3*dimx*dimy);
+    for(int i = 0; i < dimy; ++i){      // row
+        for(int j = 0; j < dimx; ++j){  // column
+            // Generate ray through this pixel
+            Ray r = camera.getRay(i, j);
+
+            // For testing, just set color red
+            buffer[3*i*dimx + 3*j + 0] = 1.0;  // R
+            buffer[3*i*dimx + 3*j + 1] = 0.0;  // G
+            buffer[3*i*dimx + 3*j + 2] = 0.0;  // B
+        }
+    }
+
+    save_ppm("test.ppm", buffer, dimx, dimy);
 
 }
 
