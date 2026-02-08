@@ -65,6 +65,36 @@ void Sphere::print(ostream& out) const{
     Geometry::print(out);
 }
 
+bool Sphere::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, float& t) const {
+    Eigen::Vector3f OC = origin - centre;
+    //||O - C + t * d||^2 = r^2 expanded becomes
+    // (O−C+td)⋅(O−C+td) = r^2, let OC = O - C
+    // (OC + td)⋅(OC + td) = r^2
+    // (OC⋅OC) + (d⋅OC)2t + (d⋅d)t^2 = r^2 , d is normalized in getRay()
+    // this is a quadratic equation, at^2 + bt + c
+    // let b = 2(d⋅OC), let c = OC⋅OC - r^2, a is 1 bcs d is normalized 
+    float b = 2.0f * direction.dot(OC);
+    float c = OC.squaredNorm() - radius * radius;
+
+    // descriminant = b^2 - 4ac in quadratic formula
+    float discriminant = b * b - 4.0f * c;
+
+    if (discriminant < 0) return false;  // no intersection, 0 solutions 
+
+    float sqrtDisc = sqrt(discriminant);
+    float t0 = (-b - sqrtDisc)/2.0f;
+    float t1 = (-b + sqrtDisc)/2.0f;
+
+    if (t0 > 0) {
+        t = t0;     // closest intersection in front of camera
+        return true; 
+    } else if (t1 > 0) {
+        t = t1;     // ray started inside sphere, t0 < 0, t1 is exit point
+        return true;
+    }
+    return false;      // both t0 and t1 are behind the camera
+}
+
 Rectangle::Rectangle(json& j) : Geometry(j){
     p1 = parseVector(j, "p1");
     p2 = parseVector(j, "p2");
@@ -80,3 +110,9 @@ void Rectangle::print(ostream& out) const {
         << "p4: " << p4.transpose() << endl;
     Geometry::print(out);
 }
+
+bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, float& t) const {
+
+    return false;
+}
+

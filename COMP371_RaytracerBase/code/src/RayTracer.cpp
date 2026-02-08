@@ -61,7 +61,7 @@ RayTracer::RayTracer(nlohmann::json j){
         outputObjs[0]->getWidth(),
         outputObjs[0]->getHeight());
 
-        cout << camera << endl;
+        // cout << camera << endl;
 
         
     // test_save_ppm();
@@ -75,10 +75,20 @@ RayTracer::RayTracer(nlohmann::json j){
             // Generate ray through this pixel
             Ray r = camera.getRay(i, j);
 
-            // For testing, just set color red
-            buffer[3*i*dimx + 3*j + 0] = 1.0;  // R
-            buffer[3*i*dimx + 3*j + 1] = 0.0;  // G
-            buffer[3*i*dimx + 3*j + 2] = 0.0;  // B
+            float t;
+
+            if (geometryObjs[0]->intersect(r.getOrigin(), r.getDirection(), t)){
+                buffer[3*i*dimx + 3*j + 0] = 0.0;  // R
+                buffer[3*i*dimx + 3*j + 1] = 0.0;  // G
+                buffer[3*i*dimx + 3*j + 2] = 0.0;  // B
+            }
+            else {
+                // For testing, just set color red
+                buffer[3*i*dimx + 3*j + 0] = 1.0;  // R
+                buffer[3*i*dimx + 3*j + 1] = 0.0;  // G
+                buffer[3*i*dimx + 3*j + 2] = 0.0;  // B
+            }
+
         }
     }
 
