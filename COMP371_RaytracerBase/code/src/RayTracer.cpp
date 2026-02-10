@@ -62,25 +62,31 @@ void RayTracer::run(){
         for(int j = 0; j < dimx; ++j){  // column
             // Generate ray through this pixel
             Ray r = camera.getRay(i, j);
-            Color shapeColor(0.0,1.0,0.0);
-            Color backgroundColor(1.0,0.0,0.0);
+            Color pixelColor; // background by default
 
-            float t;
+            float closestT = numeric_limits<float>::infinity();
+            Geometry* closestObj = nullptr;
 
-            if (geometryObjs[0]->intersect(r.getOrigin(), r.getDirection(), t)){
-                buffer[3*i*dimx + 3*j + 0] = shapeColor.r;  // R
-                buffer[3*i*dimx + 3*j + 1] = shapeColor.g;  // G
-                buffer[3*i*dimx + 3*j + 2] = shapeColor.b;  // B
+            for(auto& go : geometryObjs){
+                float currentT;
+                if (go->intersect(r.getOrigin(), r.getDirection(), currentT)){
+                    if (currentT < closestT){ 
+                        closestT = currentT;
+                        closestObj = go.get(); 
+                    }
+                }
             }
-            else {
-                // For testing, just set color backgroundColor
-                buffer[3*i*dimx + 3*j + 0] = backgroundColor.r;  // R
-                buffer[3*i*dimx + 3*j + 1] = backgroundColor.g;  // G
-                buffer[3*i*dimx + 3*j + 2] = backgroundColor.b;  // B
-            }
-            // for(auto& go : geometryObjs){
-            // }
 
+            if(closestObj){
+                pixelColor.r = closestObj->getAc()[0];
+                pixelColor.g = closestObj->getAc()[1];
+                pixelColor.b = closestObj->getAc()[2];
+            }
+
+            // write to buffer
+            buffer[3*i*dimx + 3*j + 0] = pixelColor.r;
+            buffer[3*i*dimx + 3*j + 1] = pixelColor.g;
+            buffer[3*i*dimx + 3*j + 2] = pixelColor.b;
 
         }
     }

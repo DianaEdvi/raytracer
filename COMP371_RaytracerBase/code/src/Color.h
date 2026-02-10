@@ -3,7 +3,8 @@
 
 struct Color {
     float r, g, b;
-    Color(float r=0, float g=0, float b=0) : r(r), g(g), b(b) {}
+    // Pastel pink default
+    Color(float r = 1.0f, float g = 0.7f, float b = 0.8f) : r(r), g(g), b(b) {}
 
 };
 #endif

@@ -22,6 +22,7 @@ class Geometry {
         friend ostream &operator<<(ostream &out, const Geometry &geometry);
         virtual void print(ostream& out) const;
         virtual bool intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, float& t) const = 0;
+        const Eigen::Vector3f& getAc() const { return ac; }
     protected: 
         float ka, kd, ks, pc;
         Eigen::Vector3f ac, dc, sc;
