@@ -376,15 +376,7 @@ Ray.h
 iostream
 -
 
-/COMP371/src/Geometry.cpp
-Geometry.h
-/COMP371/src/Geometry.h
-jsonUtility.h
-/COMP371/src/jsonUtility.h
-json.hpp
-/COMP371/src/json.hpp
-iostream
--
+/COMP371/src/Color.h
 
 /COMP371/src/Geometry.h
 Eigen/Dense
@@ -435,6 +427,8 @@ Camera.h
 /COMP371/src/Camera.h
 Ray.h
 /COMP371/src/Ray.h
+Color.h
+/COMP371/src/Color.h
 iostream
 -
 Eigen/Dense
@@ -459,6 +453,8 @@ Light.h
 /COMP371/src/Light.h
 Output.h
 /COMP371/src/Output.h
+Camera.h
+/COMP371/src/Camera.h
 fstream
 -
 cstdio

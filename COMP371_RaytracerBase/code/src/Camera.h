@@ -16,9 +16,9 @@ class Camera {
         unsigned int width;
         unsigned int height;
         // basis  vectors
-        Eigen::Vector3f z;
-        Eigen::Vector3f x;
-        Eigen::Vector3f y;
+        Eigen::Vector3f forward;
+        Eigen::Vector3f right;
+        Eigen::Vector3f camUp;
     public: 
         Camera(Eigen::Vector3f lookat, 
             Eigen::Vector3f up, 

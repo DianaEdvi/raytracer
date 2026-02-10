@@ -18,9 +18,9 @@ Camera::Camera(Eigen::Vector3f lookat,
       width(width),
       height(height)
 {
-    z = (lookat - centre).normalized();
-    x = up.cross(z).normalized();
-    y = z.cross(x);
+    forward = (lookat - centre).normalized();
+    right = forward.cross(up).normalized();
+    camUp = right.cross(forward);
 }
 
 
@@ -31,9 +31,9 @@ ostream &operator<<(ostream &out, const Camera &camera){
     out << "Camera centre: " << camera.centre.transpose() << endl;
     out << "width: " << camera.width << endl;
     out << "height: " << camera.height << endl;
-    out << "z: " << camera.z.transpose() << endl;
-    out << "x: " << camera.x.transpose() << endl;
-    out << "y: " << camera.y.transpose() << endl;
+    out << "forward: " << camera.forward.transpose() << endl;
+    out << "right: " << camera.right.transpose() << endl;
+    out << "camUp: " << camera.camUp.transpose() << endl;
 
     return out;
 }
@@ -47,11 +47,11 @@ Ray Camera::getRay(unsigned int i, unsigned int j) const {
     float deltaX = (2 * aspect * halfHeight) / float(width);
     float deltaY = (2 * halfHeight) / float(height);
 
-    Eigen::Vector3f A = centre + z;
-    Eigen::Vector3f B = A + halfHeight * y;
-    Eigen::Vector3f C = B - aspect * halfHeight * x;
+    Eigen::Vector3f A = centre + forward;
+    Eigen::Vector3f B = A + halfHeight * camUp;
+    Eigen::Vector3f C = B - aspect * halfHeight * right;
 
-    Eigen::Vector3f pixelPos = C + (j + 0.5f) * deltaX * x - (i + 0.5f) * deltaY * y;
+    Eigen::Vector3f pixelPos = C + (j + 0.5f) * deltaX * right - (i + 0.5f) * deltaY * camUp;
     Eigen::Vector3f dir = (pixelPos - centre).normalized();
 
     return Ray(centre, dir);
