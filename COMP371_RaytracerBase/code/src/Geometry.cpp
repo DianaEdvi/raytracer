@@ -111,30 +111,52 @@ void Rectangle::print(ostream& out) const {
     Geometry::print(out);
 }
 
-bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, float& t) const {
-
+bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, float& t) const
+{
     // R(t) = origin + t * direction
     // Plane: normal⋅(X - p1) = 0 => point is on a plane
     // normal⋅(R(t) - p1) = 0
     // t = normal⋅(p1 -  origin)/normal⋅direction
-    
     const float EPS = 1e-6f;
 
-    Eigen::Vector3f u = p2 - p1; // horizontal vector 
-    Eigen::Vector3f v = p4 - p1; // vertical vector 
+    Eigen::Vector3f u = p2 - p1;
+    Eigen::Vector3f v = p4 - p1;
     Eigen::Vector3f n = u.cross(v).normalized();
 
     float denom = n.dot(direction);
-    if (abs(denom) < EPS) return false; // denominator is 0/close to 0 = parallel to plane 
+    if (std::abs(denom) < EPS)
+        return false; // Ray parallel to plane
 
-    float tHit = normal.dot(p1 - origin) / denom; // the distance to intersection
+    float tHit = n.dot(p1 - origin) / denom;
+    if (tHit <= 0)
+        return false; // Behind camera
 
-    if (tHit <= 0) return false; // intersection is behind the camera
+    Eigen::Vector3f P = origin + tHit * direction;
 
-    // otherwise, it hits the plane, we just need to check if it is inside/outside 
+    // if all four normals are the same sign, they are considered "inside"
+    // account for if the rectangle is accidentally read in clockwise order instead of counter clockwise order
 
-    Eigen::Vector3f P = origin + tHit * direction; // hit point 
+    Eigen::Vector3f edge, current;
+    float sign;
 
-    return false;
+    edge = p2 - p1;
+    current = P - p1;
+    sign = n.dot(edge.cross(current));
+    if (abs(sign) < EPS) sign = 1.0f;
+
+    edge = p3 - p2;
+    current = P - p2;
+    if (sign * n.dot(edge.cross(current)) < 0) return false;
+
+    edge = p4 - p3;
+    current = P - p3;
+    if (sign * n.dot(edge.cross(current)) < 0) return false;
+
+    edge = p1 - p4;
+    current = P - p4;
+    if (sign * n.dot(edge.cross(current)) < 0) return false;
+
+    t = tHit;
+    return true;
 }
 
