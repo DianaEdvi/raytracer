@@ -56,12 +56,15 @@ void RayTracer::run(){
 
     int dimx = camera.getWidth();
     int dimy = camera.getHeight();
+
+    cout << camera << endl;
     
     std::vector<double> buffer(3*dimx*dimy);
-    for(int i = 0; i < dimy; ++i){      // row
-        for(int j = 0; j < dimx; ++j){  // column
+    for(int i = 0; i < dimy; ++i){      // row y
+        for(int j = 0; j < dimx; ++j){  // column x
             // Generate ray through this pixel
             Ray r = camera.getRay(i, j);
+            // cout << "Ray dir: " << r.getDirection().transpose() << endl;
             Color pixelColor; // background by default
 
             float closestT = numeric_limits<float>::infinity();
@@ -109,3 +112,6 @@ int save_ppm(std::string file_name, const std::vector<double>& buffer, int dimx,
 }
 
 
+
+// multiple outputs 
+// 

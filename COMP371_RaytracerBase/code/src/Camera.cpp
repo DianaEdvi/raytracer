@@ -18,7 +18,9 @@ Camera::Camera(Eigen::Vector3f lookat,
       width(width),
       height(height)
 {
-    forward = (lookat - centre).normalized();
+    up = up.normalized();
+    lookat = lookat.normalized();
+    forward = lookat;
     right = forward.cross(up).normalized();
     camUp = right.cross(forward);
 }
@@ -41,20 +43,31 @@ ostream &operator<<(ostream &out, const Camera &camera){
 // Calculate a ray that goes through a pixel on the screen
 Ray Camera::getRay(unsigned int i, unsigned int j) const {
     float aspect = float(width) / float(height);
-    float theta = fov * M_PI / 180.0f;
-    float halfHeight = tan(theta / 2.0f);
+    float theta = fov * M_PI / 180.0f;        // vertical FOV in radians
+    float halfHeight = tan(theta / 2.0f);     // half of view plane height
+    float halfWidth = aspect * halfHeight;    // half of view plane width
 
-    float deltaX = (2 * aspect * halfHeight) / float(width);
-    float deltaY = (2 * halfHeight) / float(height);
+    // Center of the view plane at distance 1 along forward
+    Eigen::Vector3f screenCenter = centre + forward;
 
-    Eigen::Vector3f A = centre + forward;
-    Eigen::Vector3f B = A + halfHeight * camUp;
-    Eigen::Vector3f C = B - aspect * halfHeight * right;
+    // Top-left corner of the view plane
+    Eigen::Vector3f topLeft = screenCenter + halfHeight * camUp - halfWidth * right;
 
-    Eigen::Vector3f pixelPos = C + (j + 0.5f) * deltaX * right - (i + 0.5f) * deltaY * camUp;
+    // Fractional offsets across the view plane for this pixel
+    float u = (j + 0.5f) / float(width);   // horizontal fraction
+    float v = (i + 0.5f) / float(height);  // vertical fraction (from top)
+
+    // Compute pixel position
+    Eigen::Vector3f pixelPos = topLeft 
+                             + u * 2.0f * halfWidth * right    // move right
+                             - v * 2.0f * halfHeight * camUp; // move down
+                             
+
+    // Ray direction
     Eigen::Vector3f dir = (pixelPos - centre).normalized();
 
     return Ray(centre, dir);
 }
+
 
 
