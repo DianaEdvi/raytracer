@@ -19,6 +19,12 @@ class Camera {
         Eigen::Vector3f forward;
         Eigen::Vector3f right;
         Eigen::Vector3f camUp;
+
+        // pixel calculations
+        Eigen::Vector3f topLeftPixel;   // The world position of the top-left pixel center
+        float halfWidth;   
+        float halfHeight;   
+
     public: 
         Camera(Eigen::Vector3f lookat, 
             Eigen::Vector3f up, 
@@ -27,6 +33,7 @@ class Camera {
             unsigned int width,
             unsigned int height
         );
+        void calculatePixelData();
         Ray getRay(unsigned int i, unsigned int j) const;
         unsigned int getWidth() const { return width; }
         unsigned int getHeight() const { return height; }

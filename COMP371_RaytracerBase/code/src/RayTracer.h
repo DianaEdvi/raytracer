@@ -33,7 +33,6 @@ class RayTracer {
         vector<unique_ptr<Geometry>> geometryObjs; 
         vector<unique_ptr<Light>> lightObjs; 
         vector<unique_ptr<Output>> outputObjs; 
-        Camera camera;
 };
 
 

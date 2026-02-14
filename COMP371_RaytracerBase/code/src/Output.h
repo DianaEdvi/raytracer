@@ -20,6 +20,8 @@ class Output {
         unsigned int getWidth() const { return size[0]; }
         unsigned int getHeight() const { return size[1]; }
 
+        const string getFilename() const {return filename;}
+
         friend ostream &operator<<(ostream &out, const Output &output);
         Output(json& j);
 
