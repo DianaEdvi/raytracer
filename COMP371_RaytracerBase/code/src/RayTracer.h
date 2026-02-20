@@ -11,6 +11,7 @@
 #include "Light.h"
 #include "Output.h"
 #include "Camera.h"
+#include "Color.h"
 
 
 #include <fstream>
@@ -23,12 +24,13 @@ using namespace std;
 class Geometry;
 class Light;
 class Output;
+struct HitRecord;
 
 class RayTracer {
     public: 
         RayTracer(nlohmann::json j);
-        // void colorPixel(unique_ptr<Geometry>, )
         void run();
+        Color calculatePhongLighting(HitRecord& hitRecord, Output& output);
     private:
         vector<unique_ptr<Geometry>> geometryObjs; 
         vector<unique_ptr<Light>> lightObjs; 

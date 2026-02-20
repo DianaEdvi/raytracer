@@ -65,11 +65,14 @@ void Point::print(ostream& out) const{
     Light::print(out);
 }
 
+
+
 Area::Area(json& j) : Light(j){
     p1 = parseVector(j, "p1");
     p2 = parseVector(j, "p2");
     p3 = parseVector(j, "p3");
     p4 = parseVector(j, "p4");
+    centre = (p1 + p2 + p3 + p4)/4.0;
 }
 
 void Area::print(ostream& out) const {

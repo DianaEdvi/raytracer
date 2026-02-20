@@ -17,6 +17,8 @@ iostream
 /COMP371/src/Color.h
 iostream
 -
+Eigen/Dense
+-
 
 /COMP371/src/Geometry.h
 Eigen/Dense
@@ -91,6 +93,8 @@ Output.h
 /COMP371/src/Output.h
 Camera.h
 /COMP371/src/Camera.h
+Color.h
+/COMP371/src/Color.h
 fstream
 -
 cstdio

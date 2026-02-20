@@ -639,6 +639,7 @@ CMakeFiles/raytracer.dir/main.cpp.o: ../external/json.hpp
 CMakeFiles/raytracer.dir/main.cpp.o: ../external/simpleppm.h
 CMakeFiles/raytracer.dir/main.cpp.o: ../main.cpp
 CMakeFiles/raytracer.dir/main.cpp.o: ../src/Camera.h
+CMakeFiles/raytracer.dir/main.cpp.o: ../src/Color.h
 CMakeFiles/raytracer.dir/main.cpp.o: ../src/Geometry.h
 CMakeFiles/raytracer.dir/main.cpp.o: ../src/Light.h
 CMakeFiles/raytracer.dir/main.cpp.o: ../src/Output.h

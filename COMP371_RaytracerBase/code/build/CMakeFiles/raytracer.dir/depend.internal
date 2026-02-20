@@ -640,6 +640,7 @@ CMakeFiles/raytracer.dir/main.cpp.o
  /COMP371/external/simpleppm.h
  /COMP371/main.cpp
  /COMP371/src/Camera.h
+ /COMP371/src/Color.h
  /COMP371/src/Geometry.h
  /COMP371/src/Light.h
  /COMP371/src/Output.h

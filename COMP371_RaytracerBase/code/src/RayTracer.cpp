@@ -100,3 +100,17 @@ void RayTracer::run(){
 
 }
 
+Color RayTracer::calculatePhongLighting(HitRecord& hitRecord, Output& output){
+
+    Color ambient = Color(output.getAi().cwiseProduct(hitRecord.ac) * hitRecord.ka);
+
+    for (auto& light : lightObjs){
+        Eigen::Vector3f V = output.getCentre() - hitRecord.hitPoint;
+        Eigen::Vector3f L = light->getCentre() - hitRecord.hitPoint;
+
+    }
+    Color color;
+    return color;
+}
+
+

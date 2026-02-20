@@ -21,6 +21,7 @@ class Light {
     public: 
         virtual ~Light();
         friend ostream &operator<<(ostream &out, const Light &light);
+        virtual const Eigen::Vector3f& getCentre() const = 0;
         virtual void print(ostream& out) const;
     protected: 
         Eigen::Vector3f id, is;
@@ -35,6 +36,7 @@ class Point : public Light {
     public: 
         Point(json& j);
     void print(ostream& out) const override;
+        const Eigen::Vector3f& getCentre() const override { return centre; }
     private: 
         Eigen::Vector3f centre;
     
@@ -44,8 +46,11 @@ class Area: public Light {
     public: 
         Area(json& j);
     void print(ostream& out) const override;
+    const Eigen::Vector3f& getCentre() const override { return centre; }
+
     private:
         Eigen::Vector3f p1, p2, p3, p4;
+        Eigen::Vector3f centre;
 };
 
 

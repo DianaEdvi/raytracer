@@ -15,6 +15,7 @@ class Output {
         const Eigen::Vector3f& getLookat() const { return lookat; }
         const Eigen::Vector3f& getUp() const { return up; }
         const Eigen::Vector3f& getCentre() const { return centre; }
+        const Eigen::Vector3f& getAi() const { return ai; }
         float getFov() const { return fov; }
 
         unsigned int getWidth() const { return size[0]; }
