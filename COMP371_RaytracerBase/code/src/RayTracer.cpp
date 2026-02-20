@@ -1,7 +1,7 @@
 #include "RayTracer.h"
 
 #include "json.hpp"
-#include "jsonUtility.h"
+#include "Utility.h"
 #include "Geometry.h"
 #include "Light.h"
 #include "Output.h"
@@ -11,8 +11,6 @@
 
 #include <iostream>
 #include <Eigen/Dense>
-#include <sstream>
-#include <fstream>
 
 #include <memory>
 
@@ -44,6 +42,9 @@ RayTracer::RayTracer(nlohmann::json j){
 }
 
 void RayTracer::run(){
+
+
+    std::cout << *geometryObjs[0] << std::endl;
 
     for(auto& obj : outputObjs){
         Camera camera(
@@ -79,9 +80,9 @@ void RayTracer::run(){
                 }
     
                 if(closestObj){
-                    pixelColor.r = closestObj->getDc()[0];
-                    pixelColor.g = closestObj->getDc()[1];
-                    pixelColor.b = closestObj->getDc()[2];
+                    pixelColor.r = closestObj->hitRecord->dc[0];
+                    pixelColor.g = closestObj->hitRecord->dc[1];
+                    pixelColor.b = closestObj->hitRecord->dc[2];
                 }
     
                 // write to buffer
@@ -93,24 +94,9 @@ void RayTracer::run(){
         }
 
         
-        save_ppm(obj->getFilename(), buffer, dimx, dimy);
+        save_new_ppm(obj->getFilename(), buffer, dimx, dimy);
         
     }
 
 }
 
-int save_ppm(string file_name, const vector<double>& buffer, int dimx, int dimy) {
-   
-    ofstream ofs(file_name, ios_base::out | ios_base::binary);
-    ofs << "P6" << endl << dimx << ' ' << dimy << endl << "255" << endl;
- 
-    for (unsigned int i = 0; i < dimy; ++i)
-        for (unsigned int j = 0; j < dimx; ++j)
-            ofs << (char) (255.0 * buffer[3*i*dimx+3*j+0]) <<  (char) (255.0 * buffer[3*i*dimx+3*j+1]) << (char) (255.0 * buffer[3*i*dimx+3*j+2]);
- 
-    ofs.close();
-
-    cout << "Created new file: " << file_name << endl;
-    
-    return 0;
-}

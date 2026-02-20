@@ -1,7 +1,9 @@
-#include "jsonUtility.h"
+#include "Utility.h"
 
 #include <iostream>
 #include <Eigen/Dense>
+#include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -238,4 +240,20 @@ bool containsMandatoryProperty(const json& jsonObj, const string& property){
         return false;
     }   
     return true;
+}
+
+int save_new_ppm(string file_name, const vector<double>& buffer, int dimx, int dimy) {
+   
+    ofstream ofs(file_name, ios_base::out | ios_base::binary);
+    ofs << "P6" << endl << dimx << ' ' << dimy << endl << "255" << endl;
+ 
+    for (unsigned int i = 0; i < dimy; ++i)
+        for (unsigned int j = 0; j < dimx; ++j)
+            ofs << (char) (255.0 * buffer[3*i*dimx+3*j+0]) <<  (char) (255.0 * buffer[3*i*dimx+3*j+1]) << (char) (255.0 * buffer[3*i*dimx+3*j+2]);
+ 
+    ofs.close();
+
+    cout << "Created new file: " << file_name << endl;
+    
+    return 0;
 }

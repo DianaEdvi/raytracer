@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <Eigen/Dense>
 
-#include "jsonUtility.h"
+#include "Utility.h"
 using namespace std;
 
 Output::Output(json& j){

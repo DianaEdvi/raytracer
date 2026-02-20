@@ -3,6 +3,7 @@
 
 CMakeFiles/raytracer.dir/external/simpleppm.cpp.o
  /COMP371/external/simpleppm.cpp
+ /COMP371/external/simpleppm.h
 CMakeFiles/raytracer.dir/external/test_eigen.cpp.o
  /COMP371/external/test_eigen.cpp
  /usr/include/eigen3/Eigen/Cholesky
@@ -635,7 +636,6 @@ CMakeFiles/raytracer.dir/external/test_ppm.cpp.o
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
 CMakeFiles/raytracer.dir/main.cpp.o
- ../external/json.hpp
  /COMP371/external/json.hpp
  /COMP371/external/simpleppm.h
  /COMP371/main.cpp
@@ -645,6 +645,7 @@ CMakeFiles/raytracer.dir/main.cpp.o
  /COMP371/src/Output.h
  /COMP371/src/Ray.h
  /COMP371/src/RayTracer.h
+ /COMP371/src/json.hpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Dense
@@ -1064,10 +1065,10 @@ CMakeFiles/raytracer.dir/src/Camera.cpp.o
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
 CMakeFiles/raytracer.dir/src/Geometry.cpp.o
- ../external/json.hpp
  /COMP371/src/Geometry.cpp
  /COMP371/src/Geometry.h
- /COMP371/src/jsonUtility.h
+ /COMP371/src/Utility.h
+ /COMP371/src/json.hpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Dense
@@ -1276,10 +1277,10 @@ CMakeFiles/raytracer.dir/src/Geometry.cpp.o
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
 CMakeFiles/raytracer.dir/src/Light.cpp.o
- ../external/json.hpp
  /COMP371/src/Light.cpp
  /COMP371/src/Light.h
- /COMP371/src/jsonUtility.h
+ /COMP371/src/Utility.h
+ /COMP371/src/json.hpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Dense
@@ -1488,10 +1489,10 @@ CMakeFiles/raytracer.dir/src/Light.cpp.o
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
 CMakeFiles/raytracer.dir/src/Output.cpp.o
- ../external/json.hpp
  /COMP371/src/Output.cpp
  /COMP371/src/Output.h
- /COMP371/src/jsonUtility.h
+ /COMP371/src/Utility.h
+ /COMP371/src/json.hpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Dense
@@ -1910,7 +1911,6 @@ CMakeFiles/raytracer.dir/src/Ray.cpp.o
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
 CMakeFiles/raytracer.dir/src/RayTracer.cpp.o
- ../external/json.hpp
  /COMP371/src/Camera.h
  /COMP371/src/Color.h
  /COMP371/src/Geometry.h
@@ -1919,7 +1919,8 @@ CMakeFiles/raytracer.dir/src/RayTracer.cpp.o
  /COMP371/src/Ray.h
  /COMP371/src/RayTracer.cpp
  /COMP371/src/RayTracer.h
- /COMP371/src/jsonUtility.h
+ /COMP371/src/Utility.h
+ /COMP371/src/json.hpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Dense
@@ -2127,10 +2128,10 @@ CMakeFiles/raytracer.dir/src/RayTracer.cpp.o
  /usr/include/eigen3/Eigen/src/plugins/CommonCwiseUnaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h
-CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o
- ../external/json.hpp
- /COMP371/src/jsonUtility.cpp
- /COMP371/src/jsonUtility.h
+CMakeFiles/raytracer.dir/src/Utility.cpp.o
+ /COMP371/src/Utility.cpp
+ /COMP371/src/Utility.h
+ /COMP371/src/json.hpp
  /usr/include/eigen3/Eigen/Cholesky
  /usr/include/eigen3/Eigen/Core
  /usr/include/eigen3/Eigen/Dense

@@ -10,7 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/raytracer.dir/src/Output.cpp.o"
   "CMakeFiles/raytracer.dir/src/Ray.cpp.o"
   "CMakeFiles/raytracer.dir/src/RayTracer.cpp.o"
-  "CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
+  "CMakeFiles/raytracer.dir/src/Utility.cpp.o"
   "raytracer"
   "raytracer.pdb"
 )

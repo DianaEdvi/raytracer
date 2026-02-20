@@ -200,18 +200,18 @@ CMakeFiles/raytracer.dir/src/RayTracer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/raytracer.dir/src/RayTracer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /COMP371/src/RayTracer.cpp -o CMakeFiles/raytracer.dir/src/RayTracer.cpp.s
 
-CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o: CMakeFiles/raytracer.dir/flags.make
-CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o: ../src/jsonUtility.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o -c /COMP371/src/jsonUtility.cpp
+CMakeFiles/raytracer.dir/src/Utility.cpp.o: CMakeFiles/raytracer.dir/flags.make
+CMakeFiles/raytracer.dir/src/Utility.cpp.o: ../src/Utility.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/raytracer.dir/src/Utility.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/raytracer.dir/src/Utility.cpp.o -c /COMP371/src/Utility.cpp
 
-CMakeFiles/raytracer.dir/src/jsonUtility.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/raytracer.dir/src/jsonUtility.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /COMP371/src/jsonUtility.cpp > CMakeFiles/raytracer.dir/src/jsonUtility.cpp.i
+CMakeFiles/raytracer.dir/src/Utility.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/raytracer.dir/src/Utility.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /COMP371/src/Utility.cpp > CMakeFiles/raytracer.dir/src/Utility.cpp.i
 
-CMakeFiles/raytracer.dir/src/jsonUtility.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/raytracer.dir/src/jsonUtility.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /COMP371/src/jsonUtility.cpp -o CMakeFiles/raytracer.dir/src/jsonUtility.cpp.s
+CMakeFiles/raytracer.dir/src/Utility.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/raytracer.dir/src/Utility.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /COMP371/src/Utility.cpp -o CMakeFiles/raytracer.dir/src/Utility.cpp.s
 
 # Object files for target raytracer
 raytracer_OBJECTS = \
@@ -226,7 +226,7 @@ raytracer_OBJECTS = \
 "CMakeFiles/raytracer.dir/src/Output.cpp.o" \
 "CMakeFiles/raytracer.dir/src/Ray.cpp.o" \
 "CMakeFiles/raytracer.dir/src/RayTracer.cpp.o" \
-"CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o"
+"CMakeFiles/raytracer.dir/src/Utility.cpp.o"
 
 # External object files for target raytracer
 raytracer_EXTERNAL_OBJECTS =
@@ -242,7 +242,7 @@ raytracer: CMakeFiles/raytracer.dir/src/Light.cpp.o
 raytracer: CMakeFiles/raytracer.dir/src/Output.cpp.o
 raytracer: CMakeFiles/raytracer.dir/src/Ray.cpp.o
 raytracer: CMakeFiles/raytracer.dir/src/RayTracer.cpp.o
-raytracer: CMakeFiles/raytracer.dir/src/jsonUtility.cpp.o
+raytracer: CMakeFiles/raytracer.dir/src/Utility.cpp.o
 raytracer: CMakeFiles/raytracer.dir/build.make
 raytracer: CMakeFiles/raytracer.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/COMP371/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable raytracer"

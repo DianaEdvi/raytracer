@@ -1,6 +1,6 @@
 #include "Geometry.h"
 
-#include "jsonUtility.h"
+#include "Utility.h"
 #include "json.hpp"
 
 #include <iostream>
@@ -21,26 +21,28 @@ unique_ptr<Geometry> GeometryFactory::create(json& j) {
     throw std::runtime_error("Unknown geometry type: " + type);
 }
 
-Geometry::Geometry(json& j){
-    ac = parseVector(j, "ac");
-    dc = parseVector(j, "dc");
-    sc = parseVector(j, "sc");
-    ka = j.value("ka", 0.0);
-    kd = j.value("kd", 0.0);
-    ks = j.value("ks", 0.0);
-    pc = j.value("pc", 0.0);
+Geometry::Geometry(json& j) : hitRecord(make_unique<HitRecord>()){
+    cout << "We make it here" << endl;
+    hitRecord->ac = parseVector(j, "ac");
+    hitRecord->dc = parseVector(j, "dc");
+    hitRecord->sc = parseVector(j, "sc");
+    hitRecord->ka = j.value("ka", 0.0);
+    hitRecord->kd = j.value("kd", 0.0);
+    hitRecord->ks = j.value("ks", 0.0);
+    hitRecord->pc = j.value("pc", 0.0);
     visible = j.value("visible", true);
     transformMatrix = parseMatrix4f(j, "transform");
+    cout << "We ended" << endl;
 }
 
 void Geometry::print(ostream& out) const {
-    out << "ac: " << ac.transpose() << endl
-        << "dc: " << dc.transpose() << endl
-        << "sc: " << sc.transpose() << endl
-        << "ka: " << ka << endl
-        << "kd: " << kd << endl
-        << "ks: " << ks << endl
-        << "pc: " << pc << endl;
+    out << "ac: " << hitRecord->ac.transpose() << endl
+        << "dc: " << hitRecord->dc.transpose() << endl
+        << "sc: " << hitRecord->sc.transpose() << endl
+        << "ka: " << hitRecord->ka << endl
+        << "kd: " << hitRecord->kd << endl
+        << "ks: " << hitRecord->ks << endl
+        << "pc: " << hitRecord->pc << endl;
 }
 
 ostream &operator<<(ostream &out, const Geometry &geometry)
@@ -142,7 +144,7 @@ bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& 
     edge = p2 - p1;
     current = P - p1;
     sign = n.dot(edge.cross(current));
-    if (abs(sign) < EPS) sign = 1.0f;
+    if (std::abs(sign) < EPS) sign = 1.0f;
 
     edge = p3 - p2;
     current = P - p2;
@@ -159,4 +161,3 @@ bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& 
     t = tHit;
     return true;
 }
-
