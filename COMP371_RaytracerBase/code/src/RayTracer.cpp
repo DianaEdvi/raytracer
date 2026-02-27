@@ -71,11 +71,12 @@ void RayTracer::run(){
                 Geometry* closestObj = nullptr;
     
                 for(auto& go : geometryObjs){
-                    pixelColor = Color(0.0f, 0.0f, 0.0f);
-                    if (go->intersect(r.getOrigin(), r.getDirection(), hitRecord)){
-                        if (hitRecord.t < closestT){ 
-                            closestT = hitRecord.t;
+                    HitRecord tempRecord;
+                    if (go->intersect(r.getOrigin(), r.getDirection(), tempRecord)){
+                        if (tempRecord.t < closestT){ 
+                            closestT = tempRecord.t;
                             closestObj = go.get(); 
+                            hitRecord = tempRecord;
                         }
                     }
                 }
@@ -105,8 +106,8 @@ void RayTracer::run(){
 Color RayTracer::calculatePhongLighting(HitRecord& hitRecord, Output& output){
 
     Eigen::Vector3f ambient = output.getAi().cwiseProduct(hitRecord.ac) * hitRecord.ka;
-    Eigen::Vector3f diffuse;
-    Eigen::Vector3f specular;
+    Eigen::Vector3f diffuse(0.0f, 0.0f, 0.0f); 
+    Eigen::Vector3f specular(0.0f, 0.0f, 0.0f);
     Eigen::Vector3f V = (output.getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the camera eye 
     for (auto& light : lightObjs){
         Eigen::Vector3f L = (light->getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the light source 
