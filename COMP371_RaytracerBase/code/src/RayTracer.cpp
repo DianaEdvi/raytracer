@@ -104,14 +104,28 @@ void RayTracer::run(){
 }
 
 Color RayTracer::calculatePhongLighting(HitRecord& hitRecord, Output& output){
-
     Eigen::Vector3f ambient = output.getAi().cwiseProduct(hitRecord.ac) * hitRecord.ka;
     Eigen::Vector3f diffuse(0.0f, 0.0f, 0.0f); 
     Eigen::Vector3f specular(0.0f, 0.0f, 0.0f);
     Eigen::Vector3f V = (output.getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the camera eye 
+
+    Eigen::Vector3f shadowOrigin = hitRecord.hitPoint + hitRecord.normal * 1e-4f; // offset the shadow ray origin to prevent shadow acne
+
     for (auto& light : lightObjs){
         Eigen::Vector3f L = (light->getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the light source 
         float lambertian = std::max(0.0f, hitRecord.normal.dot(L)); // the angle between the normal and the light, set to 0 if pointing away from normal 
+
+        for(auto& go : geometryObjs){
+            HitRecord shadowRecord;
+            if (go->intersect(shadowOrigin, L, shadowRecord)){
+                float distToLight = (light->getCentre() - hitRecord.hitPoint).norm();
+                if (shadowRecord.t < distToLight) {
+                    lambertian = 0.0f; // in shadow, no diffuse or specular contribution from this light
+                    break;
+                }
+            }
+        }
+
         diffuse = diffuse + light->getId().cwiseProduct(hitRecord.dc * hitRecord.kd * lambertian);
         if (lambertian > 0.0){
             Eigen::Vector3f R = (2.0f * lambertian * hitRecord.normal - L).normalized(); // The reflectance vector. The direction the light is going after hitting the object
@@ -119,6 +133,7 @@ Color RayTracer::calculatePhongLighting(HitRecord& hitRecord, Output& output){
             specular = specular + light->getIs().cwiseProduct(hitRecord.sc) * hitRecord.ks * std::pow(specAngle, hitRecord.pc);
         }
     }
+
     Color color(ambient + diffuse + specular);    
     color = Color(color.r = std::min(1.0f, color.r), color.g = std::min(1.0f, color.g), color.b = std::min(1.0f, color.b));
     color = Color(color.r = std::max(0.0f, color.r), color.g = std::max(0.0f, color.g), color.b = std::max(0.0f, color.b));
