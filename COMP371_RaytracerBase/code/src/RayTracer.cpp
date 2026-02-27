@@ -64,25 +64,27 @@ void RayTracer::run(){
             for(int j = 0; j < dimx; ++j){  // column x
                 // Generate ray through this pixel
                 Ray r = camera.getRay(i, j);
-                Color pixelColor; // background by default
+                HitRecord hitRecord;
+                Color pixelColor; 
     
                 float closestT = numeric_limits<float>::infinity();
                 Geometry* closestObj = nullptr;
     
                 for(auto& go : geometryObjs){
-                    float currentT;
-                    if (go->intersect(r.getOrigin(), r.getDirection(), currentT)){
-                        if (currentT < closestT){ 
-                            closestT = currentT;
+                    pixelColor = Color(0.0f, 0.0f, 0.0f);
+                    if (go->intersect(r.getOrigin(), r.getDirection(), hitRecord)){
+                        if (hitRecord.t < closestT){ 
+                            closestT = hitRecord.t;
                             closestObj = go.get(); 
                         }
                     }
                 }
     
                 if(closestObj){
-                    pixelColor.r = closestObj->hitRecord->dc[0];
-                    pixelColor.g = closestObj->hitRecord->dc[1];
-                    pixelColor.b = closestObj->hitRecord->dc[2];
+                    pixelColor = calculatePhongLighting(hitRecord, *obj);
+                }
+                else {
+                    pixelColor = Color(1.0f, 1.0f, 1.0f); // background color
                 }
     
                 // write to buffer
@@ -102,14 +104,23 @@ void RayTracer::run(){
 
 Color RayTracer::calculatePhongLighting(HitRecord& hitRecord, Output& output){
 
-    Color ambient = Color(output.getAi().cwiseProduct(hitRecord.ac) * hitRecord.ka);
-
+    Eigen::Vector3f ambient = output.getAi().cwiseProduct(hitRecord.ac) * hitRecord.ka;
+    Eigen::Vector3f diffuse;
+    Eigen::Vector3f specular;
+    Eigen::Vector3f V = (output.getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the camera eye 
     for (auto& light : lightObjs){
-        Eigen::Vector3f V = output.getCentre() - hitRecord.hitPoint;
-        Eigen::Vector3f L = light->getCentre() - hitRecord.hitPoint;
-
+        Eigen::Vector3f L = (light->getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the light source 
+        float lambertian = std::max(0.0f, hitRecord.normal.dot(L)); // the angle between the normal and the light, set to 0 if pointing away from normal 
+        diffuse = diffuse + light->getId().cwiseProduct(hitRecord.dc * hitRecord.kd * lambertian);
+        if (lambertian > 0.0){
+            Eigen::Vector3f R = (2.0f * lambertian * hitRecord.normal - L).normalized(); // The reflectance vector. The direction the light is going after hitting the object
+            float specAngle = std::max(0.0f, R.dot(V)); // check if that ray is hitting the camera         
+            specular = specular + light->getIs().cwiseProduct(hitRecord.sc) * hitRecord.ks * std::pow(specAngle, hitRecord.pc);
+        }
     }
-    Color color;
+    Color color(ambient + diffuse + specular);    
+    color = Color(color.r = std::min(1.0f, color.r), color.g = std::min(1.0f, color.g), color.b = std::min(1.0f, color.b));
+    color = Color(color.r = std::max(0.0f, color.r), color.g = std::max(0.0f, color.g), color.b = std::max(0.0f, color.b));
     return color;
 }
 

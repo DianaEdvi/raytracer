@@ -4,6 +4,7 @@
 #include "json.hpp"
 
 #include <iostream>
+#include <cmath>
 
 using namespace nlohmann;
 using namespace std;
@@ -21,28 +22,26 @@ unique_ptr<Geometry> GeometryFactory::create(json& j) {
     throw std::runtime_error("Unknown geometry type: " + type);
 }
 
-Geometry::Geometry(json& j) : hitRecord(make_unique<HitRecord>()){
-    cout << "We make it here" << endl;
-    hitRecord->ac = parseVector(j, "ac");
-    hitRecord->dc = parseVector(j, "dc");
-    hitRecord->sc = parseVector(j, "sc");
-    hitRecord->ka = j.value("ka", 0.0);
-    hitRecord->kd = j.value("kd", 0.0);
-    hitRecord->ks = j.value("ks", 0.0);
-    hitRecord->pc = j.value("pc", 0.0);
+Geometry::Geometry(json& j){
+    ac = parseVector(j, "ac");
+    dc = parseVector(j, "dc");
+    sc = parseVector(j, "sc");
+    ka = j.value("ka", 0.0);
+    kd = j.value("kd", 0.0);
+    ks = j.value("ks", 0.0);
+    pc = j.value("pc", 0.0);
     visible = j.value("visible", true);
     transformMatrix = parseMatrix4f(j, "transform");
-    cout << "We ended" << endl;
 }
 
 void Geometry::print(ostream& out) const {
-    out << "ac: " << hitRecord->ac.transpose() << endl
-        << "dc: " << hitRecord->dc.transpose() << endl
-        << "sc: " << hitRecord->sc.transpose() << endl
-        << "ka: " << hitRecord->ka << endl
-        << "kd: " << hitRecord->kd << endl
-        << "ks: " << hitRecord->ks << endl
-        << "pc: " << hitRecord->pc << endl;
+    out << "ac: " << ac.transpose() << endl
+        << "dc: " << dc.transpose() << endl
+        << "sc: " << sc.transpose() << endl
+        << "ka: " << ka << endl
+        << "kd: " << kd << endl
+        << "ks: " << ks << endl
+        << "pc: " << pc << endl;
 }
 
 ostream &operator<<(ostream &out, const Geometry &geometry)
@@ -67,7 +66,7 @@ void Sphere::print(ostream& out) const{
     Geometry::print(out);
 }
 
-bool Sphere::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, float& t) const {
+bool Sphere::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, HitRecord& record) const {
     Eigen::Vector3f OC = origin - centre;
     //||O - C + t * d||^2 = r^2 expanded becomes
     // (O−C+td)⋅(O−C+td) = r^2, let OC = O - C
@@ -87,14 +86,29 @@ bool Sphere::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& dir
     float t0 = (-b - sqrtDisc)/2.0f;
     float t1 = (-b + sqrtDisc)/2.0f;
 
-    if (t0 > 0) {
-        t = t0;     // closest intersection in front of camera
-        return true; 
-    } else if (t1 > 0) {
-        t = t1;     // ray started inside sphere, t0 < 0, t1 is exit point
-        return true;
+    const float EPS = 1e-4f;
+    
+    if (t0 > EPS) {
+        record.t = t0; // closest intersection in front of camera
+        record.hitPoint = origin + record.t * direction;
+        record.normal = (record.hitPoint - centre).normalized();
+    } else if (t1 > EPS) {
+        record.t = t1; // ray started inside sphere, t0 < 0, t1 is exit point
+        record.hitPoint = origin + record.t * direction;
+        record.normal = -(record.hitPoint - centre).normalized(); // flip normal if ray started inside sphere
+    } else {
+        return false; // both intersections are behind the camera
     }
-    return false;      // both t0 and t1 are behind the camera
+
+    record.ac = ac;
+    record.dc = dc;
+    record.sc = sc;
+    record.ka = ka;
+    record.kd = kd;
+    record.ks = ks;
+    record.pc = pc;
+
+    return true;
 }
 
 Rectangle::Rectangle(json& j) : Geometry(j){
@@ -113,7 +127,7 @@ void Rectangle::print(ostream& out) const {
     Geometry::print(out);
 }
 
-bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, float& t) const
+bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction, HitRecord& record) const
 {
     // R(t) = origin + t * direction
     // Plane: normal⋅(X - p1) = 0 => point is on a plane
@@ -133,7 +147,7 @@ bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& 
     if (tHit <= 0)
         return false; // Behind camera
 
-    Eigen::Vector3f P = origin + tHit * direction;
+    Eigen::Vector3f P = origin + tHit * direction; // intersection point with plane
 
     // if all four normals are the same sign, they are considered "inside"
     // account for if the rectangle is accidentally read in clockwise order instead of counter clockwise order
@@ -158,6 +172,21 @@ bool Rectangle::intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& 
     current = P - p4;
     if (sign * n.dot(edge.cross(current)) < 0) return false;
 
-    t = tHit;
-    return true;
+    // Flip normal if ray is hitting the back face of the rectangle
+    if (n.dot(direction) > 0) {
+        record.normal = -n;
+    } else {
+        record.normal = n;
+    }
+
+    record.t = tHit;
+    record.hitPoint = P;
+    record.ac = ac;
+    record.dc = dc;
+    record.sc = sc;
+    record.ka = ka;
+    record.kd = kd;
+    record.ks = ks;
+    record.pc = pc;
+    return true; // hit
 }

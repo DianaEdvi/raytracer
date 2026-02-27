@@ -23,6 +23,9 @@ class Light {
         friend ostream &operator<<(ostream &out, const Light &light);
         virtual const Eigen::Vector3f& getCentre() const = 0;
         virtual void print(ostream& out) const;
+        Eigen::Vector3f getId() const { return id; }
+        Eigen::Vector3f getIs() const { return is; }
+
     protected: 
         Eigen::Vector3f id, is;
         Eigen::Matrix4f transformMatrix;
