@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <Eigen/Dense>
+#include <algorithm>
 
 #include <memory>
 
@@ -110,33 +111,42 @@ Color RayTracer::calculatePhongLighting(HitRecord& hitRecord, Output& output){
     Eigen::Vector3f V = (output.getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the camera eye 
 
     Eigen::Vector3f shadowOrigin = hitRecord.hitPoint + hitRecord.normal * 1e-4f; // offset the shadow ray origin to prevent shadow acne
-
     for (auto& light : lightObjs){
-        Eigen::Vector3f L = (light->getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the light source 
-        float lambertian = std::max(0.0f, hitRecord.normal.dot(L)); // the angle between the normal and the light, set to 0 if pointing away from normal 
+        Eigen::Vector3f lightDiffuse(0.0f, 0.0f, 0.0f); 
+        Eigen::Vector3f lightSpecular(0.0f, 0.0f, 0.0f);
 
-        for(auto& go : geometryObjs){
-            HitRecord shadowRecord;
-            if (go->intersect(shadowOrigin, L, shadowRecord)){
-                float distToLight = (light->getCentre() - hitRecord.hitPoint).norm();
-                if (shadowRecord.t < distToLight) {
-                    lambertian = 0.0f; // in shadow, no diffuse or specular contribution from this light
-                    break;
+        std::vector<Eigen::Vector3f> samplePoints = light->getSamplePoints();
+        for(auto& samplePoint : samplePoints){
+            Eigen::Vector3f L = (samplePoint - hitRecord.hitPoint).normalized(); // vector from the hit point to the light source 
+            float lambertian = std::max(0.0f, hitRecord.normal.dot(L)); // the angle between the normal and the light, set to 0 if pointing away from normal 
+    
+            for(auto& go : geometryObjs){
+                HitRecord shadowRecord;
+                if (go->intersect(shadowOrigin, L, shadowRecord)){
+                    float distToLight = (samplePoint - hitRecord.hitPoint).norm();
+                    if (shadowRecord.t < distToLight) {
+                        lambertian = 0.0f; // in shadow, no diffuse or specular contribution from this light
+                        break;
+                    }
                 }
             }
+    
+            lightDiffuse = lightDiffuse + light->getId().cwiseProduct(hitRecord.dc * hitRecord.kd * lambertian);
+            if (lambertian > 0.0){
+                Eigen::Vector3f R = (2.0f * lambertian * hitRecord.normal - L).normalized(); // The reflectance vector. The direction the light is going after hitting the object
+                float specAngle = std::max(0.0f, R.dot(V)); // check if that ray is hitting the camera         
+                lightSpecular = lightSpecular + light->getIs().cwiseProduct(hitRecord.sc) * hitRecord.ks * std::pow(specAngle, hitRecord.pc);
+            }
         }
-
-        diffuse = diffuse + light->getId().cwiseProduct(hitRecord.dc * hitRecord.kd * lambertian);
-        if (lambertian > 0.0){
-            Eigen::Vector3f R = (2.0f * lambertian * hitRecord.normal - L).normalized(); // The reflectance vector. The direction the light is going after hitting the object
-            float specAngle = std::max(0.0f, R.dot(V)); // check if that ray is hitting the camera         
-            specular = specular + light->getIs().cwiseProduct(hitRecord.sc) * hitRecord.ks * std::pow(specAngle, hitRecord.pc);
-        }
+        diffuse += lightDiffuse/static_cast<float>(samplePoints.size());
+        specular += lightSpecular/static_cast<float>(samplePoints.size());
     }
 
+
     Color color(ambient + diffuse + specular);    
-    color = Color(color.r = std::min(1.0f, color.r), color.g = std::min(1.0f, color.g), color.b = std::min(1.0f, color.b));
-    color = Color(color.r = std::max(0.0f, color.r), color.g = std::max(0.0f, color.g), color.b = std::max(0.0f, color.b));
+    color.r = std::min(1.0f, std::max(0.0f, color.r));
+    color.g = std::min(1.0f, std::max(0.0f, color.g));
+    color.b = std::min(1.0f, std::max(0.0f, color.b));
     return color;
 }
 

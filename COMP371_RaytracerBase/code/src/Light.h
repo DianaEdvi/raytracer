@@ -21,7 +21,7 @@ class Light {
     public: 
         virtual ~Light();
         friend ostream &operator<<(ostream &out, const Light &light);
-        virtual const std::vector<Eigen::Vector3f>& getSamplePoints() const = 0;
+        virtual const std::vector<Eigen::Vector3f> getSamplePoints() const = 0;
         virtual void print(ostream& out) const;
         Eigen::Vector3f getId() const { return id; }
         Eigen::Vector3f getIs() const { return is; }
@@ -39,7 +39,7 @@ class Point : public Light {
     public: 
         Point(json& j);
     void print(ostream& out) const override;
-        const std::vector<Eigen::Vector3f>& getSamplePoints() const override;
+        const std::vector<Eigen::Vector3f> getSamplePoints() const override;
     private: 
         Eigen::Vector3f centre;
     
@@ -49,7 +49,7 @@ class Area: public Light {
     public: 
         Area(json& j);
     void print(ostream& out) const override;
-    const std::vector<Eigen::Vector3f>& getSamplePoints() const override;
+    const std::vector<Eigen::Vector3f> getSamplePoints() const override;
     private:
         Eigen::Vector3f p1, p2, p3, p4;
         Eigen::Vector3f centre;

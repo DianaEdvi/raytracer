@@ -64,8 +64,8 @@ void Point::print(ostream& out) const{
     Light::print(out);
 }
 
-const std::vector<Eigen::Vector3f>& Point::getSamplePoints() const {
-    static std::vector<Eigen::Vector3f> samplePoints;
+const std::vector<Eigen::Vector3f> Point::getSamplePoints() const {
+    std::vector<Eigen::Vector3f> samplePoints;
     // samplePoints.clear();
     samplePoints.push_back(centre);
     return samplePoints;
@@ -89,7 +89,7 @@ void Area::print(ostream& out) const {
     Light::print(out);
 }
 
-const std::vector<Eigen::Vector3f>& Area::getSamplePoints() const {
+const std::vector<Eigen::Vector3f> Area::getSamplePoints() const {
     std::vector<Eigen::Vector3f> samples;
 
     if (n <= 0 || usecenter){
@@ -97,8 +97,8 @@ const std::vector<Eigen::Vector3f>& Area::getSamplePoints() const {
         return samples;
     }
     // Create two vectors that represent the edges of the area light
-    Eigen::Vector3f u = p1 - p2;
-    Eigen::Vector3f v = p3 - p4;
+    Eigen::Vector3f u = p2 - p1;
+    Eigen::Vector3f v = p4 - p1;
 
     // Generate n x n sample points on the area light
     for (int i = 0; i < n; i++){
