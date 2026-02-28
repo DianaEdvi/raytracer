@@ -110,7 +110,7 @@ Color RayTracer::calculatePhongLighting(HitRecord& hitRecord, Output& output){
     Eigen::Vector3f specular(0.0f, 0.0f, 0.0f);
     Eigen::Vector3f V = (output.getCentre() - hitRecord.hitPoint).normalized(); // vector from the hit point to the camera eye 
 
-    Eigen::Vector3f shadowOrigin = hitRecord.hitPoint + hitRecord.normal * 1e-4f; // offset the shadow ray origin to prevent shadow acne
+    Eigen::Vector3f shadowOrigin = hitRecord.hitPoint + hitRecord.normal * 0.01f; // offset the shadow ray origin to prevent shadow acne
     for (auto& light : lightObjs){
         Eigen::Vector3f lightDiffuse(0.0f, 0.0f, 0.0f); 
         Eigen::Vector3f lightSpecular(0.0f, 0.0f, 0.0f);
@@ -133,8 +133,8 @@ Color RayTracer::calculatePhongLighting(HitRecord& hitRecord, Output& output){
     
             lightDiffuse = lightDiffuse + light->getId().cwiseProduct(hitRecord.dc * hitRecord.kd * lambertian);
             if (lambertian > 0.0){
-                Eigen::Vector3f R = (2.0f * lambertian * hitRecord.normal - L).normalized(); // The reflectance vector. The direction the light is going after hitting the object
-                float specAngle = std::max(0.0f, R.dot(V)); // check if that ray is hitting the camera         
+                Eigen::Vector3f H = (L + V).normalized(); // The reflectance vector. The direction the light is going after hitting the object
+                float specAngle = std::max(0.0f, hitRecord.normal.dot(H)); // check if that ray is hitting the camera         
                 lightSpecular = lightSpecular + light->getIs().cwiseProduct(hitRecord.sc) * hitRecord.ks * std::pow(specAngle, hitRecord.pc);
             }
         }
