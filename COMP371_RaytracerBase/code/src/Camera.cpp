@@ -5,22 +5,20 @@
 
 using namespace std;
 
-Camera::Camera(Eigen::Vector3f lookat,
-               Eigen::Vector3f up,
-               Eigen::Vector3f centre,
-               float fov,
-               unsigned int width,
-               unsigned int height)
-    : lookat(lookat),
-      up(up),
-      centre(centre),
-      fov(fov),
-      width(width),
-      height(height)
+Camera::Camera(Eigen::Vector3f l,
+               Eigen::Vector3f u,
+               Eigen::Vector3f c,
+               float f,
+               unsigned int w,
+               unsigned int h)
+    : lookat(l.normalized()),
+      up(u.normalized()),
+      centre(c),
+      fov(f),
+      width(w),
+      height(h)
 {
-    up = up.normalized();
-    lookat = lookat.normalized();
-    forward = lookat;
+    forward = lookat.normalized();
     right = forward.cross(up).normalized();
     camUp = right.cross(forward);
 

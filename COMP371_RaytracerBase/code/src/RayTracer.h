@@ -39,6 +39,6 @@ class RayTracer {
 
 
 
-int save_ppm(std::string file_name, const std::vector<double>& buffer, int dimx, int dimy);
+// int save_ppm(std::string file_name, const std::vector<double>& buffer, int dimx, int dimy);
 
 #endif

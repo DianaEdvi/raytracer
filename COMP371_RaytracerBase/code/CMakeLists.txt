@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
 project(raytracer) 
+add_definitions(-D_USE_MATH_DEFINES)
 
 #IMPORTANT COMPILING DIRECTIVES
 
@@ -10,6 +11,13 @@ project(raytracer)
 # code this define is disabled
 # Also do not forget to create the src folder under code
 add_compile_options(-DSTUDENT_SOLUTION)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+
+# 3. Stop Visual Studio from adding /Release or /Debug subfolders
+foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+    string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+    set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} "${CMAKE_BINARY_DIR}" )
+endforeach()
 
 
 # 2
@@ -33,7 +41,7 @@ set(CMAKE_PREFIX_PATH
 
 # ENCS Eigen3 CMake setup
 if (WIN32)
-include_directories(C:/eigen-3.4.1/)# for windows you can directly hardcode the paths to your libraries in the include
+include_directories("C:/Users/diana/Projects/TEMP SCHOOL/eigen-5.0.0")# for windows you can directly hardcode the paths to your libraries in the include
 else() 
 set(ENV{EIGEN3_ROOT} /encs/pkg/eigen-3.3.7/root)
 set(CMAKE_MODULE_PATH /encs/pkg/eigen-3.3.7/root/cmake)
