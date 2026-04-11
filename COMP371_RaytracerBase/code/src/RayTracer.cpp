@@ -35,9 +35,9 @@ RayTracer::RayTracer(nlohmann::json j){
     for (auto itr = j["light"].begin(); itr!= j["light"].end(); itr++){
 
         // check if the light is used before creating the object and adding to the list of light objects
-        auto newLight = lf.create(*itr); // Create it ONCE
+        auto newLight = lf.create(*itr); 
         if (newLight->getUse()) {
-            lightObjs.push_back(std::move(newLight)); // Move the existing object into the list
+            lightObjs.push_back(std::move(newLight)); 
             }
     }
 
@@ -46,7 +46,7 @@ RayTracer::RayTracer(nlohmann::json j){
 
         for_each(lightObjs.begin(), lightObjs.end(), [&](unique_ptr<Light>& light) {
             Area* areaLight = dynamic_cast<Area*>(light.get());
-            if (areaLight != nullptr && output->getAntialiasing() && light->getUse()) {
+            if (areaLight != nullptr && output->getAntialiasing() && !light->getUseCenter()) {
                 output->setAntialiasing(false);
                 cout << "Detecting antialiasing and area light enabled at the same time, disabling antialiasing." << endl;
             }
@@ -70,40 +70,61 @@ void RayTracer::run(){
     
         int dimx = camera.getWidth();
         int dimy = camera.getHeight();
+        Eigen::Vector3i rpp = obj->getRpp();
             
         std::vector<double> buffer(3*dimx*dimy);
+        std::vector<Eigen::Vector3f> samples;
+        if (obj->getAntialiasing()) {
+            // rpp logic
+            if (rpp[1] == 0 && rpp[2] == 0) { // one value
+                samples = getUniformSamplePoints(rpp[0]);
+            } else if (rpp[2] == 0) { // two values
+                samples = getStratifiedSamplePoints(rpp[0], rpp[0], rpp[1]);
+            } else { // three values
+                samples = getStratifiedSamplePoints(rpp[0], rpp[1], rpp[2]);
+            } 
+        } else {
+                samples.push_back(Eigen::Vector3f(0.5f, 0.5f, 0.0f)); // if no antialiasing, use center of the pixel
+            }
+
         for(int i = 0; i < dimy; ++i){      // row y
             for(int j = 0; j < dimx; ++j){  // column x
-                // Generate ray through this pixel
-                Ray r = camera.getRay(i, j);
-                HitRecord hitRecord;
-                Color pixelColor; 
-    
-                float closestT = numeric_limits<float>::infinity();
-                Geometry* closestObj = nullptr;
-    
-                for(auto& go : geometryObjs){
-                    HitRecord tempRecord;
-                    if (go->intersect(r.getOrigin(), r.getDirection(), tempRecord)){
-                        if (tempRecord.t < closestT){ 
-                            closestT = tempRecord.t;
-                            closestObj = go.get(); 
-                            hitRecord = tempRecord;
+                Color pixelColorSum; 
+
+                for (const auto& s : samples) {
+                    // Generate ray through this pixel
+                    Ray r = camera.getRay(i, j, s.x(), s.y());
+                    HitRecord hitRecord;
+                    
+                    float closestT = numeric_limits<float>::infinity();
+                    Geometry* closestObj = nullptr;
+        
+                    for(auto& go : geometryObjs){
+                        HitRecord tempRecord;
+                        if (go->intersect(r.getOrigin(), r.getDirection(), tempRecord)){
+                            if (tempRecord.t < closestT){ 
+                                closestT = tempRecord.t;
+                                closestObj = go.get(); 
+                                hitRecord = tempRecord;
+                            }
                         }
                     }
+        
+                    if(closestObj){
+                        pixelColorSum = pixelColorSum + calculatePhongLighting(hitRecord, *obj);
+                    }
+                    else {
+                        pixelColorSum = pixelColorSum + Color(0.5f, 0.5f, 0.5f); 
+                    }
                 }
-    
-                if(closestObj){
-                    pixelColor = calculatePhongLighting(hitRecord, *obj);
-                }
-                else {
-                    pixelColor = Color(1.0f, 1.0f, 1.0f); // background color
-                }
+
+
+                Color finalColor = pixelColorSum / static_cast<float>(samples.size());
     
                 // write to buffer
-                buffer[3*i*dimx + 3*j + 0] = pixelColor.r;
-                buffer[3*i*dimx + 3*j + 1] = pixelColor.g;
-                buffer[3*i*dimx + 3*j + 2] = pixelColor.b;
+                buffer[3*i*dimx + 3*j + 0] = finalColor.r;
+                buffer[3*i*dimx + 3*j + 1] = finalColor.g;
+                buffer[3*i*dimx + 3*j + 2] = finalColor.b;
     
             }
         }

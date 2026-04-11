@@ -51,8 +51,6 @@ ostream &operator<<(ostream &out, const Geometry &geometry)
 }
 
 Geometry::~Geometry(){}
-// geometry should have a hit function that takes in a ray, do the intersection algorithm and have it return bool 
-// and at what distance
 
 Sphere::Sphere(json& j) : Geometry(j) {
     radius = j.value("radius", 0);

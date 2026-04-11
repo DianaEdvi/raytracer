@@ -26,6 +26,7 @@ class Light {
         Eigen::Vector3f getId() const { return id; }
         Eigen::Vector3f getIs() const { return is; }
         bool getUse() const { return use; }
+        bool getUseCenter() const { return usecenter; }
 
     protected: 
         Eigen::Vector3f id, is;
@@ -55,9 +56,4 @@ class Area: public Light {
         Eigen::Vector3f p1, p2, p3, p4;
         Eigen::Vector3f centre;
 };
-
-
- 
-
-
 #endif

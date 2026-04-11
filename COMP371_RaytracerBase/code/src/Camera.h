@@ -34,7 +34,7 @@ class Camera {
             unsigned int height
         );
         void calculatePixelData();
-        Ray getRay(unsigned int i, unsigned int j) const;
+        Ray getRay(unsigned int i, unsigned int j, float subPixelX, float subPixelY) const;
         unsigned int getWidth() const { return width; }
         unsigned int getHeight() const { return height; }
         friend ostream &operator<<(ostream &out, const Camera &camera);

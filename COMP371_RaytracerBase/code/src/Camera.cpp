@@ -55,11 +55,11 @@ void Camera::calculatePixelData(){
 }
 
 // Calculate a ray that goes through a pixel on the screen
-Ray Camera::getRay(unsigned int i, unsigned int j) const {
+Ray Camera::getRay(unsigned int i, unsigned int j, float subPixelX, float subPixelY) const {
 
     // Fractional offsets across the view plane for this pixel
-    float u = (j + 0.5f) / float(width);   // horizontal fraction
-    float v = (i + 0.5f) / float(height);  // vertical fraction (from top)
+    float u = (j + subPixelX) / float(width);   // horizontal fraction
+    float v = (i + subPixelY) / float(height);  // vertical fraction (from top)
 
     // Compute pixel position
     Eigen::Vector3f pixelPos = topLeftPixel 

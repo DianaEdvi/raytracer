@@ -17,6 +17,7 @@ class Output {
         const Eigen::Vector3f& getCentre() const { return centre; }
         const Eigen::Vector3f& getAi() const { return ai; }
         const bool getAntialiasing() const { return antialiasing; }
+        const Eigen::Vector3i& getRpp() const { return raysperpixel; }
         bool setAntialiasing(bool aa) { antialiasing = aa; return antialiasing; }
         float getFov() const { return fov; }
         unsigned int getWidth() const { return size[0]; }

@@ -158,7 +158,6 @@ Eigen::Vector3f parseVector(const json& jsonObj, const string& propertyName){
 // Parses a float from a json object
 float parseFloat(const json& jsonObj, const string& propertyName){
     if (!(jsonObj).contains(propertyName)){
-        // cout << propertyName << " does not exist, but no matter! Setting it as 0" << endl;
         return 0;
     }
     return (jsonObj)[propertyName].get<float>();
@@ -170,7 +169,6 @@ Eigen::Matrix4f parseMatrix4f(const json& jsonObj, const string& propertyName){
 
     // Check if the property actually exists
     if (!jsonObj.contains(propertyName)) {
-        // cerr << "transform does not exist, but no matter! Setting it as identity" << endl;
         return mat;
     }
 
@@ -197,7 +195,6 @@ Eigen::Matrix4f parseMatrix4f(const json& jsonObj, const string& propertyName){
 
 bool parseBool(const json& jsonObj, const string& propertyName){
     if (!(jsonObj).contains(propertyName)){
-            // cout << propertyName << " does not exist, but no matter! Setting it as false" << endl;
             return false;
         }
         return true;
@@ -225,7 +222,6 @@ Eigen::Vector3i parseRaysPerPixel(const json& jsonObj, const string& propertyNam
             }
         }
     } else {
-        // cout << "raysperpixel does not exist, but no matter! Setting its default to 1" << endl;
         rpp[0] = 1;
     }
 
@@ -256,4 +252,31 @@ int save_new_ppm(string file_name, const vector<double>& buffer, int dimx, int d
     cout << "Created new file: " << file_name << endl;
     
     return 0;
+}
+
+const std::vector<Eigen::Vector3f> getUniformSamplePoints(int numSamples) {
+    std::vector<Eigen::Vector3f> samplePoints;
+    for (int i = 0; i < numSamples; ++i) {
+        float x = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        float y = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        samplePoints.emplace_back(x, y, 0.0f);
+    }
+    return samplePoints;
+}
+
+const std::vector<Eigen::Vector3f> getStratifiedSamplePoints(int numCols, int numRows, int numSamples) {
+    std::vector<Eigen::Vector3f> samplePoints;
+    for (int i = 0; i < numCols; i++) {
+        for (int j = 0; j < numRows; j++) {
+            for (int k = 0; k < numSamples; k++) {
+                float randomU = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+                float randomV = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+
+                float fractionU = (i + randomU) / static_cast<float>(numCols);
+                float fractionV = (j + randomV) / static_cast<float>(numRows);
+                samplePoints.emplace_back(fractionU, fractionV, 0.0f);
+            }
+        }
+    }
+    return samplePoints;
 }

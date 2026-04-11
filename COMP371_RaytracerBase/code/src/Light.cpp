@@ -100,19 +100,11 @@ const std::vector<Eigen::Vector3f> Area::getSamplePoints() const {
     Eigen::Vector3f u = p2 - p1;
     Eigen::Vector3f v = p4 - p1;
 
-    // Generate n x n sample points on the area light
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            // Find random values from 0 to 1
-            float randomU = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-            float randomV = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+    samples = getStratifiedSamplePoints(n, n, 1);
 
-            // Calculate the sample point using the random values and the edge vectors
-            float fractionU = (i + randomU) / static_cast<float>(n);
-            float fractionV = (j + randomV) / static_cast<float>(n);
-            Eigen::Vector3f samplePoint = p1 + fractionU * u + fractionV * v;
-            samples.push_back(samplePoint);
-        }
+    for (auto& sample : samples) {
+        // Transform the sample point from the unit square to the area light
+        sample = p1 + sample.x() * u + sample.y() * v;
     }
     return samples;
 }

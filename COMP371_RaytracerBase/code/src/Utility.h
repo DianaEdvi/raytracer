@@ -21,4 +21,7 @@ Eigen::Matrix4f parseMatrix4f(const json& jsonObj, const string& propertyName);
 bool parseBool(const json& jsonObj, const string& propertyName);
 Eigen::Vector3i parseRaysPerPixel(const json& jsonObj, const string& propertyName);
 int save_new_ppm(string file_name, const vector<double>& buffer, int dimx, int dimy);
+const std::vector<Eigen::Vector3f> getStratifiedSamplePoints(int numCellsAlongWidth, int numSamplesAlongHeight, int numSamples);
+const std::vector<Eigen::Vector3f> getUniformSamplePoints(int numSamples);
+
 #endif

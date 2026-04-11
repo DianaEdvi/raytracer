@@ -325,7 +325,7 @@
             "id":[1, 1, 1],
             "is":[1, 1, 1],
             "n": 5,
-            "usecenter": true
+            "usecenter": false
         },
         {
             "type":"point",
@@ -348,7 +348,7 @@
         "globalillum": true,
         "raysperpixel": [10, 10],
         "maxbounces": 3,
-        "antialiasing": true,
+        "antialiasing": false,
         "probterminate": 0.333
     }
     ]
