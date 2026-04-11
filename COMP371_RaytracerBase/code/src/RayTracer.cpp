@@ -33,7 +33,12 @@ RayTracer::RayTracer(nlohmann::json j){
     }
 
     for (auto itr = j["light"].begin(); itr!= j["light"].end(); itr++){
-        lightObjs.push_back(lf.create(*itr));
+
+        // check if the light is used before creating the object and adding to the list of light objects
+        bool usedLight = lf.create(*itr)->getUse();
+         if (usedLight){
+            lightObjs.push_back(lf.create(*itr));
+         }
     }
 
     for (auto itr = j["output"].begin(); itr!= j["output"].end(); itr++){
@@ -43,10 +48,7 @@ RayTracer::RayTracer(nlohmann::json j){
 }
 
 void RayTracer::run(){
-
-
-    std::cout << *geometryObjs[0] << std::endl;
-
+    cout << "Starting ray tracing..." << endl;
     for(auto& obj : outputObjs){
         Camera camera(
             obj->getLookat(),

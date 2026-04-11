@@ -25,6 +25,7 @@ class Light {
         virtual void print(ostream& out) const;
         Eigen::Vector3f getId() const { return id; }
         Eigen::Vector3f getIs() const { return is; }
+        bool getUse() const { return use; }
 
     protected: 
         Eigen::Vector3f id, is;
