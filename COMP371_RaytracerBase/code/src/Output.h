@@ -16,13 +16,12 @@ class Output {
         const Eigen::Vector3f& getUp() const { return up; }
         const Eigen::Vector3f& getCentre() const { return centre; }
         const Eigen::Vector3f& getAi() const { return ai; }
+        const bool getAntialiasing() const { return antialiasing; }
+        bool setAntialiasing(bool aa) { antialiasing = aa; return antialiasing; }
         float getFov() const { return fov; }
-
         unsigned int getWidth() const { return size[0]; }
         unsigned int getHeight() const { return size[1]; }
-
         const string getFilename() const {return filename;}
-
         friend ostream &operator<<(ostream &out, const Output &output);
         Output(json& j);
 

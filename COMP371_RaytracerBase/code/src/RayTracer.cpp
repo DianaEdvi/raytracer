@@ -35,16 +35,25 @@ RayTracer::RayTracer(nlohmann::json j){
     for (auto itr = j["light"].begin(); itr!= j["light"].end(); itr++){
 
         // check if the light is used before creating the object and adding to the list of light objects
-        bool usedLight = lf.create(*itr)->getUse();
-         if (usedLight){
-            lightObjs.push_back(lf.create(*itr));
-         }
+        auto newLight = lf.create(*itr); // Create it ONCE
+        if (newLight->getUse()) {
+            lightObjs.push_back(std::move(newLight)); // Move the existing object into the list
+            }
     }
 
-    for (auto itr = j["output"].begin(); itr!= j["output"].end(); itr++){
-        outputObjs.push_back(make_unique<Output>(*itr));
-    }
+    for (auto itr = j["output"].begin(); itr != j["output"].end(); itr++) {
+    unique_ptr<Output> output = make_unique<Output>(*itr);
 
+        for_each(lightObjs.begin(), lightObjs.end(), [&](unique_ptr<Light>& light) {
+            Area* areaLight = dynamic_cast<Area*>(light.get());
+            if (areaLight != nullptr && output->getAntialiasing() && light->getUse()) {
+                output->setAntialiasing(false);
+                cout << "Detecting antialiasing and area light enabled at the same time, disabling antialiasing." << endl;
+            }
+        });
+
+        outputObjs.push_back(std::move(output));
+    }
 }
 
 void RayTracer::run(){
